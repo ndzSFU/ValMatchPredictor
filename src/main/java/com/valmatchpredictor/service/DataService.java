@@ -1,0 +1,106 @@
+package com.valmatchpredictor.service;
+import com.valmatchpredictor.model.Match;
+import com.valmatchpredictor.model.MatchesResponse;
+import com.valmatchpredictor.model.RankingResponse;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class DataService {
+    private final String TEAMS_API_URL = "https://vlrggapi.vercel.app/rankings?region=na";
+
+    public RankingResponse getRankingResponse(){
+        RestTemplate restTemplate = new RestTemplate();
+        RankingResponse ranking_response = restTemplate.getForObject(TEAMS_API_URL, RankingResponse.class);
+        return ranking_response;
+    }
+
+    private final String MATCHES_API_URL = "https://vlrggapi.vercel.app/match?q=results";
+    public List<Match> fetchMatchUps(String team1, String team2){
+
+            RestTemplate restTemplate = new RestTemplate();
+            MatchesResponse matchesResponse = restTemplate.getForObject(MATCHES_API_URL, MatchesResponse.class);
+            List<Match> allMatches = matchesResponse.getData().getSegments();
+            List<Match> matchUps = new ArrayList<>();
+
+            for(Match match : allMatches){
+                if(match.getTeam1().equals(team1) || match.getTeam2().equals(team1)
+                || match.getTeam1().equals(team2) || match.getTeam2().equals(team2)){
+                    matchUps.add(match);
+                }
+            }
+            return allMatches;
+    }
+
+    String nrg_id = "1034";
+    String g2_id = "11058";
+
+    public String getTeamID (String teamName) {
+        switch (teamName) {
+            case "NRG":
+                return nrg_id;
+            case "G2":
+                return g2_id;
+            // Add more cases for other teams as needed
+            default:
+                return null; // or throw an exception if team not found
+        }
+    }
+
+    public String getTeamNameUrlFormat(String teamName) {
+        switch (teamName) {
+            case "NRG":
+                return "nrg";
+            case "G2":
+                return "g2-esports";
+            // Add more cases for other teams as needed
+            default:
+                return null; // or throw an exception if team not found
+        }
+    }
+
+    public List<Match> fetchTeamMatches(String teamName) throws IOException {
+        String url = "https://www.vlr.gg/team/matches/" + getTeamID(teamName) + "/" + getTeamNameUrlFormat(teamName) + "/";
+        Document doc = Jsoup.connect(url).get();
+        List<Match> matches = new ArrayList<>();
+
+        Elements matchLinks = doc.select("a.wf-card.m-item");
+        for (Element matchElem : matchLinks) {
+            String matchUrl = "https://www.vlr.gg" + matchElem.attr("href");
+            String event = matchElem.selectFirst(".m-item-event .text-of").text();
+            String team1 = matchElem.select(".m-item-team .m-item-team-name").first().text();
+            String team2 = matchElem.select(".m-item-team.mod-right .m-item-team-name").text();
+            Elements scores = matchElem.select(".m-item-result span");
+            String score1 = scores.size() > 0 ? scores.get(0).text() : "";
+            String score2 = scores.size() > 1 ? scores.get(1).text() : "";
+            String date = matchElem.select(".m-item-date div").text();
+            //String time = matchElem.select(".m-item-date").ownText();
+
+            Match match = new Match();
+            match.setMatchUrl(matchUrl);
+            match.setTournament_name(event);
+            match.setTeam1(team1);
+            match.setTeam2(team2);
+            match.setScore1(score1);
+            match.setScore2(score2);
+            //match.setTimeUntilMatch(date + " " + time);
+
+            matches.add(match);
+        }
+        return matches;
+    }
+
+
+
+
+
+
+}
