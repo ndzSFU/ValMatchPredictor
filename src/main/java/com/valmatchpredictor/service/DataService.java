@@ -1,4 +1,5 @@
 package com.valmatchpredictor.service;
+import com.valmatchpredictor.model.Map;
 import com.valmatchpredictor.model.Match;
 import com.valmatchpredictor.model.MatchesResponse;
 import com.valmatchpredictor.model.RankingResponse;
@@ -92,6 +93,57 @@ public class DataService {
             match.setScore1(score1);
             match.setScore2(score2);
             //match.setTimeUntilMatch(date + " " + time);
+
+            List<Map> maps = new ArrayList<>();
+
+            try {
+                Document matchDoc = Jsoup.connect(matchUrl).get();
+                Element statsContainer = matchDoc.selectFirst("div.vm-stats-container");
+                if (statsContainer != null) {
+                    Elements mapDivs = statsContainer.select("div.vm-stats-game");
+                    for (Element mapDiv : mapDivs) {
+                        Map map = new Map();
+                        // Extract map name
+                        Element header = mapDiv.selectFirst(".vm-stats-game-header");
+                        if (header != null) {
+                            Elements teams = header.select(".team");
+                            if (teams.size() == 2) {
+                                // Team 1 (left)
+                                Element team1NameElem = teams.get(0).selectFirst(".team-name");
+                                Element score1Elem = teams.get(0).selectFirst(".score");
+                                // Team 2 (right)
+                                Element team2NameElem = teams.get(1).selectFirst(".team-name");
+                                Element score2Elem = teams.get(1).selectFirst(".score");
+
+                                map.setTeam1(team1NameElem != null ? team1NameElem.text().trim() : null);
+                                map.setScore1(score1Elem != null ? score1Elem.text().trim() : null);
+                                map.setTeam2(team2NameElem != null ? team2NameElem.text().trim() : null);
+                                map.setScore2(score2Elem != null ? score2Elem.text().trim() : null);
+
+                                // Determine winner
+                                try {
+                                    int s1 = Integer.parseInt(map.getScore1().trim());
+                                    int s2 = Integer.parseInt(map.getScore2().trim());
+                                    map.setWinner(s1 > s2 ? map.getTeam1() : map.getTeam2());
+                                } catch (Exception ignored) {}
+                            }
+
+                            // Map name
+                            Element mapNameElem = header.selectFirst(".map > div > span");
+                            if (mapNameElem != null) {
+                                map.setMapName(mapNameElem.ownText().trim());
+                            } else {
+                                map.setMapName("Unknown Map");
+                            }
+                        }
+
+                        if(map.getMapName() != null) maps.add(map);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            match.setMaps(maps);
 
             matches.add(match);
         }

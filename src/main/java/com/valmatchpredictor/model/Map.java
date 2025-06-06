@@ -1,18 +1,27 @@
 package com.valmatchpredictor.model;
 
 public class Map {
-    private String name;
+    private String mapName;
     private String team1;
     private String team2;
     private String score1;
     private String score2;
+    private String winner;
 
-    public String getName() {
-        return name;
+    public String getWinner() {
+        return winner;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setWinner(String winner) {
+        this.winner = winner;
+    }
+
+    public String getMapName() {
+        return mapName;
+    }
+
+    public void setMapName(String mapName) {
+        this.mapName = mapName;
     }
 
     public String getTeam1() {

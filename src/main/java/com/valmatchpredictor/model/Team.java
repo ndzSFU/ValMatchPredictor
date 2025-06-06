@@ -2,12 +2,23 @@ package com.valmatchpredictor.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 public class Team {
     @JsonProperty("team")
     private String name;
     private String rank;
     private String record;
     private String logo;
+    private List<Match> matches;
+
+    public List<Match> getMatches() {
+        return matches;
+    }
+
+    public void setMatches(List<Match> matches) {
+        this.matches = matches;
+    }
 
     public Team() {
     }

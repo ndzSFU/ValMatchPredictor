@@ -1,6 +1,8 @@
 package com.valmatchpredictor.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Match {
     private String team1;
@@ -10,6 +12,15 @@ public class Match {
     private String tournament_name;
     @JsonProperty("match_page")
     private String matchUrl;
+    private List<Map> maps;
+
+    public List<Map> getMaps() {
+        return maps;
+    }
+
+    public void setMaps(List<Map> maps) {
+        this.maps = maps;
+    }
 
     // Getters
     public String getTeam1() {

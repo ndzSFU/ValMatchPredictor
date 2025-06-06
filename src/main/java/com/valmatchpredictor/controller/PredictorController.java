@@ -66,6 +66,8 @@ public class PredictorController {
         }
     }
 
+
+
     @GetMapping("/teamMatches")
     public List<Match> showTeamMatches(String teamName){
         try{
@@ -75,6 +77,11 @@ public class PredictorController {
             e.printStackTrace();
             return Collections.emptyList(); // or handle error properly
         }
+    }
+
+    @PostMapping("/predict")
+    public Team makePrediction(@RequestBody PredictionRequest request) {
+
     }
 
 
