@@ -1,7 +1,6 @@
 package com.valmatchpredictor.controller;
 
-import com.valmatchpredictor.model.Match;
-import com.valmatchpredictor.model.Team;
+import com.valmatchpredictor.model.*;
 import com.valmatchpredictor.service.DataService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -79,9 +78,44 @@ public class PredictorController {
         }
     }
 
-    @PostMapping("/predict")
-    public Team makePrediction(@RequestBody PredictionRequest request) {
 
+    @PostMapping("/predict")
+    public PredictionResponse makePrediction(@RequestBody PredictionRequest request) {
+        TeamProfile Team1 = new TeamProfile();
+        Team1.setTeamName(request.getTeam1());
+        try{
+            Team1.setMatches(dataService.fetchTeamMatches(Team1.getTeamName()));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return null; // or handle error properly
+        }
+
+        TeamProfile Team2 = new TeamProfile();
+        Team2.setTeamName(request.getTeam2());
+        try{
+            Team2.setMatches(dataService.fetchTeamMatches(Team2.getTeamName()));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return null; // or handle error properly
+        }
+
+
+        PredictionResponse predictionResponse = new PredictionResponse();
+        return null;
+    }
+
+    @GetMapping("/teamProfileTest")
+    public TeamProfile getTeamProfileTest() {
+        TeamProfile teamProfile = new TeamProfile();
+        teamProfile.setTeamName("G2 Esports");
+        try {
+            teamProfile.setMatches(dataService.fetchTeamMatches(teamProfile.getTeamName()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return teamProfile;
     }
 
 

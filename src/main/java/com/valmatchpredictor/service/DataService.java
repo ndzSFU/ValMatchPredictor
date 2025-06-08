@@ -1,5 +1,5 @@
 package com.valmatchpredictor.service;
-import com.valmatchpredictor.model.Map;
+import com.valmatchpredictor.model.PlayedMap;
 import com.valmatchpredictor.model.Match;
 import com.valmatchpredictor.model.MatchesResponse;
 import com.valmatchpredictor.model.RankingResponse;
@@ -48,7 +48,8 @@ public class DataService {
         switch (teamName) {
             case "NRG":
                 return nrg_id;
-            case "G2":
+            case "G2 Esports":
+
                 return g2_id;
             // Add more cases for other teams as needed
             default:
@@ -60,11 +61,13 @@ public class DataService {
         switch (teamName) {
             case "NRG":
                 return "nrg";
-            case "G2":
+            case "G2 Esports":
                 return "g2-esports";
+            case "FNATIC":
+                return "fnatic";
             // Add more cases for other teams as needed
             default:
-                return null; // or throw an exception if team not found
+                return teamName; // or throw an exception if team not found
         }
     }
 
@@ -94,7 +97,7 @@ public class DataService {
             match.setScore2(score2);
             //match.setTimeUntilMatch(date + " " + time);
 
-            List<Map> maps = new ArrayList<>();
+            List<PlayedMap> playedMaps = new ArrayList<>();
 
             try {
                 Document matchDoc = Jsoup.connect(matchUrl).get();
@@ -102,7 +105,7 @@ public class DataService {
                 if (statsContainer != null) {
                     Elements mapDivs = statsContainer.select("div.vm-stats-game");
                     for (Element mapDiv : mapDivs) {
-                        Map map = new Map();
+                        PlayedMap playedMap = new PlayedMap();
                         // Extract map name
                         Element header = mapDiv.selectFirst(".vm-stats-game-header");
                         if (header != null) {
@@ -115,35 +118,35 @@ public class DataService {
                                 Element team2NameElem = teams.get(1).selectFirst(".team-name");
                                 Element score2Elem = teams.get(1).selectFirst(".score");
 
-                                map.setTeam1(team1NameElem != null ? team1NameElem.text().trim() : null);
-                                map.setScore1(score1Elem != null ? score1Elem.text().trim() : null);
-                                map.setTeam2(team2NameElem != null ? team2NameElem.text().trim() : null);
-                                map.setScore2(score2Elem != null ? score2Elem.text().trim() : null);
+                                playedMap.setTeam1(team1NameElem != null ? team1NameElem.text().trim() : null);
+                                playedMap.setScore1(score1Elem != null ? score1Elem.text().trim() : null);
+                                playedMap.setTeam2(team2NameElem != null ? team2NameElem.text().trim() : null);
+                                playedMap.setScore2(score2Elem != null ? score2Elem.text().trim() : null);
 
                                 // Determine winner
                                 try {
-                                    int s1 = Integer.parseInt(map.getScore1().trim());
-                                    int s2 = Integer.parseInt(map.getScore2().trim());
-                                    map.setWinner(s1 > s2 ? map.getTeam1() : map.getTeam2());
+                                    int s1 = Integer.parseInt(playedMap.getScore1().trim());
+                                    int s2 = Integer.parseInt(playedMap.getScore2().trim());
+                                    playedMap.setWinner(s1 > s2 ? playedMap.getTeam1() : playedMap.getTeam2());
                                 } catch (Exception ignored) {}
                             }
 
                             // Map name
                             Element mapNameElem = header.selectFirst(".map > div > span");
                             if (mapNameElem != null) {
-                                map.setMapName(mapNameElem.ownText().trim());
+                                playedMap.setMapName(mapNameElem.ownText().trim());
                             } else {
-                                map.setMapName("Unknown Map");
+                                playedMap.setMapName("Unknown Map");
                             }
                         }
 
-                        if(map.getMapName() != null) maps.add(map);
+                        if(playedMap.getMapName() != null) playedMaps.add(playedMap);
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            match.setMaps(maps);
+            match.setMaps(playedMaps);
 
             matches.add(match);
         }

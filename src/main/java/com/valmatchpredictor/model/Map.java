@@ -1,58 +1,61 @@
 package com.valmatchpredictor.model;
 
 public class Map {
-    private String mapName;
-    private String team1;
-    private String team2;
-    private String score1;
-    private String score2;
-    private String winner;
+    private String name;
+    private int amountPlayed;
+    private int winRate;
+    private int roundsWon;
+    private int roundsPlayed;
 
-    public String getWinner() {
-        return winner;
+    public Map(String name) {
+        this.name = name;
+        amountPlayed = 0;
+        winRate = 0;
     }
 
-    public void setWinner(String winner) {
-        this.winner = winner;
+    public String getName() {
+        return name;
     }
 
-    public String getMapName() {
-        return mapName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setMapName(String mapName) {
-        this.mapName = mapName;
+    public int getAmountPlayed() {
+        return amountPlayed;
     }
 
-    public String getTeam1() {
-        return team1;
+    public void played() {
+        amountPlayed++;
     }
 
-    public void setTeam1(String team1) {
-        this.team1 = team1;
+    public void calculateWinRate() {
+        if (roundsPlayed == 0) {
+            this.winRate = 0;
+        } else {
+            this.winRate = (int) ((double) roundsWon / roundsPlayed * 100);
+        }
     }
 
-    public String getTeam2() {
-        return team2;
+    public int getRoundsWon() {
+        return roundsWon;
     }
 
-    public void setTeam2(String team2) {
-        this.team2 = team2;
+    public void addRoundsWon(int roundsWon) {
+        this.roundsWon += roundsWon;
     }
 
-    public String getScore1() {
-        return score1;
+    public int getRoundsPlayed() {
+        return roundsPlayed;
     }
 
-    public void setScore1(String score1) {
-        this.score1 = score1;
+    public void addRoundsPlayed(int roundsPlayed) {
+        this.roundsPlayed += roundsPlayed;
     }
 
-    public String getScore2() {
-        return score2;
+    public int getWinRate() {
+        return winRate;
     }
 
-    public void setScore2(String score2) {
-        this.score2 = score2;
-    }
+
 }
