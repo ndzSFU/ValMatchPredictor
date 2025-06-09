@@ -70,7 +70,7 @@ public class PredictorController {
     @GetMapping("/teamMatches")
     public List<Match> showTeamMatches(String teamName){
         try{
-            return dataService.fetchTeamMatches("G2");
+            return dataService.fetchTeamMatches("G2 Esports");
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -109,7 +109,7 @@ public class PredictorController {
     @GetMapping("/teamProfileTest")
     public TeamProfile getTeamProfileTest() {
         TeamProfile teamProfile = new TeamProfile();
-        teamProfile.setTeamName("G2 Esports");
+        teamProfile.setTeamName("Sentinels");
         try {
             teamProfile.setMatches(dataService.fetchTeamMatches(teamProfile.getTeamName()));
         } catch (IOException e) {

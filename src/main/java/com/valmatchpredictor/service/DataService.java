@@ -43,14 +43,16 @@ public class DataService {
 
     String nrg_id = "1034";
     String g2_id = "11058";
+    String sen_id = "2";
 
     public String getTeamID (String teamName) {
         switch (teamName) {
             case "NRG":
                 return nrg_id;
             case "G2 Esports":
-
                 return g2_id;
+            case "Sentinels":
+                return sen_id;
             // Add more cases for other teams as needed
             default:
                 return null; // or throw an exception if team not found
@@ -65,6 +67,8 @@ public class DataService {
                 return "g2-esports";
             case "FNATIC":
                 return "fnatic";
+            case "Sentinels":
+                return "sentinels";
             // Add more cases for other teams as needed
             default:
                 return teamName; // or throw an exception if team not found
