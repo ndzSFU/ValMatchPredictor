@@ -3,14 +3,37 @@ package com.valmatchpredictor.model;
 public class Map {
     private String name;
     private int amountPlayed;
-    private int winRate;
+    private int roundWinRate;
     private int roundsWon;
     private int roundsPlayed;
+    private int mathcesWon;
+    private int mathcesPlayed;
+    private int matchWinRate;
+
+    public int getMathcesWon() {
+        return mathcesWon;
+    }
+
+    public void addWonMatch() {
+        this.mathcesWon++;
+    }
+
+    public int getMathcesPlayed() {
+        return mathcesPlayed;
+    }
+
+    public void addMatch() {
+        this.mathcesPlayed++;
+    }
+
+    public int getMatchWinRate() {
+        return matchWinRate;
+    }
 
     public Map(String name) {
         this.name = name;
         amountPlayed = 0;
-        winRate = 0;
+        roundWinRate = 0;
     }
 
     public String getName() {
@@ -31,9 +54,15 @@ public class Map {
 
     public void calculateWinRate() {
         if (roundsPlayed == 0) {
-            this.winRate = 0;
+            this.roundWinRate = 0;
         } else {
-            this.winRate = (int) ((double) roundsWon / roundsPlayed * 100);
+            this.roundWinRate = (int) ((double) roundsWon / roundsPlayed * 100);
+        }
+
+        if (mathcesPlayed == 0) {
+            this.matchWinRate = 0;
+        } else {
+            this.matchWinRate = (int) ((double) mathcesWon / mathcesPlayed * 100);
         }
     }
 
@@ -53,8 +82,8 @@ public class Map {
         this.roundsPlayed += roundsPlayed;
     }
 
-    public int getWinRate() {
-        return winRate;
+    public int getRoundWinRate() {
+        return roundWinRate;
     }
 
 

@@ -24,10 +24,19 @@ public class TeamProfile {
                 int score2 = Integer.parseInt(playedMap.getScore2());
                 map.played();
                 map.addRoundsPlayed(score1 + score2);
+                map.addMatch();
+                int roundsWon = 0;
+                int roundsLost = 0;
                 if (playedMap.getTeam1().equals(teamName)) {
-                    map.addRoundsWon(score1);
+                    roundsWon = score1;
+                    roundsLost = score2;
                 }else if (playedMap.getTeam2().equals(teamName)) {
-                    map.addRoundsWon(score2);
+                    roundsWon = score2;
+                    roundsLost = score1;
+                }
+                map.addRoundsWon(roundsWon);
+                if(roundsWon > roundsLost) {
+                    map.addWonMatch();
                 }
             }
         }
