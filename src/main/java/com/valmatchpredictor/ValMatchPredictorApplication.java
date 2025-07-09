@@ -13,9 +13,9 @@ public class ValMatchPredictorApplication {
         SpringApplication.run(ValMatchPredictorApplication.class, args);
     }
 
-    @GetMapping
-    public String helloWorld(){
-        return "Hello World VLR";
-    }
+//    @GetMapping
+//    public String helloWorld(){
+//        return "Hello World VLR";
+//    }
 
 }
