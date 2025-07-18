@@ -9,6 +9,16 @@ public class TeamProfile {
     private List<Match> matches;
     private List<Map> teamMaps;
 
+    public String probableBan(){
+        Map LeastPlayedMap = teamMaps.get(0);
+        for(Map map : teamMaps) {
+            if(map.getRoundsPlayed() < LeastPlayedMap.getRoundsPlayed()) {
+                LeastPlayedMap = map;
+            }
+        }
+        return LeastPlayedMap.getName();
+    }
+
     public List<Match> getMatches() {
         return matches;
     }

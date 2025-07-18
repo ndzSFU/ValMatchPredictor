@@ -7,12 +7,12 @@ public class RankingResponse {
     private int status;
 
     @JsonProperty("data")
-    private List<Team> teams;
+    private List<Team_Old_API> teams;
 
     public RankingResponse() {
     }
 
-    public RankingResponse(int status, List<Team> teams) {
+    public RankingResponse(int status, List<Team_Old_API> teams) {
         this.status = status;
         this.teams = teams;
     }
@@ -25,11 +25,11 @@ public class RankingResponse {
         this.status = status;
     }
 
-    public List<Team> getTeams() {
+    public List<Team_Old_API> getTeams() {
         return teams;
     }
 
-    public void setTeams(List<Team> teams) {
+    public void setTeams(List<Team_Old_API> teams) {
         this.teams = teams;
     }
 }

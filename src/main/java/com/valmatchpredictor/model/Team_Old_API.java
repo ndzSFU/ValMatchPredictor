@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class Team {
+public class Team_Old_API {
     @JsonProperty("team")
     private String name;
     private String rank;
@@ -20,10 +20,10 @@ public class Team {
         this.matches = matches;
     }
 
-    public Team() {
+    public Team_Old_API() {
     }
 
-    public Team(String name, String rank, String record, String logo) {
+    public Team_Old_API(String name, String rank, String record, String logo) {
         this.name = name;
         this.rank = rank;
         this.record = record;
