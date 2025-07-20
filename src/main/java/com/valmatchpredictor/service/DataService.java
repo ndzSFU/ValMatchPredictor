@@ -44,6 +44,7 @@ public class DataService {
     String nrg_id = "1034";
     String g2_id = "11058";
     String sen_id = "2";
+    String t100_id = "120";
 
     public String getTeamID (String teamName) {
         switch (teamName) {
@@ -53,6 +54,8 @@ public class DataService {
                 return g2_id;
             case "Sentinels":
                 return sen_id;
+            case "100-thieves":
+                return t100_id;
             // Add more cases for other teams as needed
             default:
                 return null; // or throw an exception if team not found
@@ -69,13 +72,16 @@ public class DataService {
                 return "fnatic";
             case "Sentinels":
                 return "sentinels";
+            case "100 Thieves":
+                return "100-thieves";
             // Add more cases for other teams as needed
             default:
-                return teamName; // or throw an exception if team not found
+                return teamName;
         }
     }
 
     public List<Match> fetchTeamMatches(String teamName) throws IOException {
+
         String url = "https://www.vlr.gg/team/matches/" + getTeamID(teamName) + "/" + getTeamNameUrlFormat(teamName) + "/";
         Document doc = Jsoup.connect(url).get();
         List<Match> matches = new ArrayList<>();
