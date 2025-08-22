@@ -56,7 +56,7 @@ public class Map {
         if (roundsPlayed == 0) {
             this.roundWinRate = 0;
         } else {
-            this.roundWinRate = (int) ((double) roundsWon / roundsPlayed * 100);
+            this.roundWinRate = (int) (((double) roundsWon / (double) roundsPlayed) * 100.0);
         }
 
         if (mathcesPlayed == 0) {

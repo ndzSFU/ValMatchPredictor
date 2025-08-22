@@ -46,7 +46,7 @@ public class DataService {
     String sen_id = "2";
     String t100_id = "120";
     String cloud9_id = "188";
-    String eg_id = "5247";
+    String eg_id = "5248";
     String lev_id = "2359";
     String kru_id = "2355"; // Added KRU Esports ID for completeness
 

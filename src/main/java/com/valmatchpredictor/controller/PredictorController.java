@@ -76,12 +76,16 @@ public class PredictorController {
         }
     }
 
+    private int bannedMapModifier = 2;
+
     private int tallyWinRate(List<Map> teamMaps, String ban1, String ban2) {
         int addedScore = 0;
 
         for (Map map : teamMaps) {
             if(!Objects.equals(map.getName(), ban1) && !Objects.equals(map.getName(), ban2)) {
                 addedScore += map.getMatchWinRate();
+            } else{
+                addedScore += map.getMatchWinRate() / bannedMapModifier;
             }
         }
         return addedScore;
@@ -128,7 +132,7 @@ public class PredictorController {
             }
         }
 
-        double t1MatchupWinRate = totalMatchups > 0 ? ((double) (t1MatchupWins / totalMatchups)) * 100 : 0.0;
+        double t1MatchupWinRate = totalMatchups > 0 ? (((double) t1MatchupWins / totalMatchups)) * 100 : 0.0;
         double t2MatchupWinRate = totalMatchups > 0 ? (100.0 - t1MatchupWinRate) : 0.0;
 
         score1 += t1MatchupWinRate * matchUpWeight;
@@ -180,7 +184,7 @@ public class PredictorController {
     @GetMapping("/teamProfileTest")
     public TeamProfile getTeamProfileTest() {
         TeamProfile teamProfile = new TeamProfile();
-        teamProfile.setTeamName("Sentinels");
+        teamProfile.setTeamName("Evil Geniuses");
         try {
             teamProfile.setMatches(dataService.fetchTeamMatches(teamProfile.getTeamName()));
         } catch (IOException e) {
