@@ -45,7 +45,11 @@ public class DataService {
     String g2_id = "11058";
     String sen_id = "2";
     String t100_id = "120";
+    String cloud9_id = "188";
+    String eg_id = "5247";
+    String lev_id = "2359";
 
+    //Takes the nicely capitalized version of the name displayed on the front end and return the team ID
     public String getTeamID (String teamName) {
         switch (teamName) {
             case "NRG":
@@ -56,12 +60,18 @@ public class DataService {
                 return sen_id;
             case "100-thieves":
                 return t100_id;
-            // Add more cases for other teams as needed
+            case "Cloud9":
+                return cloud9_id;
+            case "Evil  Geniuses":
+                return eg_id;
+            case "LEVIATÁN":
+                return lev_id;
             default:
                 return null; // or throw an exception if team not found
         }
     }
 
+    //Takes the nicely capitalized version of the name displayed on the front end and returns what their name is in the vlr url
     public String getTeamNameUrlFormat(String teamName) {
         switch (teamName) {
             case "NRG":
@@ -74,7 +84,12 @@ public class DataService {
                 return "sentinels";
             case "100 Thieves":
                 return "100-thieves";
-            // Add more cases for other teams as needed
+            case "Cloud9":
+                return "cloud9";
+            case "Evil  Geniuses":
+                return "evil-geniuses";
+            case "LEVIATÁN":
+                return "leviat-n";
             default:
                 return teamName;
         }
