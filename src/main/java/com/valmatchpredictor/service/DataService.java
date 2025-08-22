@@ -50,6 +50,7 @@ public class DataService {
     String lev_id = "2359";
     String kru_id = "2355"; // Added KRU Esports ID for completeness
 
+
     //Takes the nicely capitalized version of the name displayed on the front end and return the team ID
     public String getTeamID (String teamName) {
         switch (teamName) {
@@ -59,18 +60,18 @@ public class DataService {
                 return g2_id;
             case "Sentinels":
                 return sen_id;
-            case "100-thieves":
+            case "100 Thieves":
                 return t100_id;
             case "Cloud9":
                 return cloud9_id;
-            case "Evil  Geniuses":
+            case "Evil Geniuses":
                 return eg_id;
             case "LEVIATÁN":
                 return lev_id;
             case "KRÜ Esports":
                 return kru_id; // Added KRU Esports ID
             default:
-                return null; // or throw an exception if team not found
+                return "0"; // or throw an exception if team not found
         }
     }
 
@@ -89,7 +90,7 @@ public class DataService {
                 return "100-thieves";
             case "Cloud9":
                 return "cloud9";
-            case "Evil  Geniuses":
+            case "Evil Geniuses":
                 return "evil-geniuses";
             case "LEVIATÁN":
                 return "leviat-n";
