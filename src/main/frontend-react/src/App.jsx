@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Dropdown from './components/Dropdown/Dropdown';
 
 function App() {
     const [team1, setTeam1] = useState('');
@@ -36,6 +37,13 @@ function App() {
                 <button type="submit">Predict</button>
             </form>
             <div>Response: {response}</div>
+
+            <div className="Dropdown">
+                <div className="Content">
+                    <Dropdown
+                    buttonText="Team 1" content={<p>place holder</p>}/>
+                </div>
+            </div>
         </div>
     );
 }
