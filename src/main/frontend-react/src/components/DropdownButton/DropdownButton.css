@@ -15,3 +15,7 @@
     justify-content: center;
     margin-left: 1rem;
 }
+
+.button-open {
+    border: rgb(147, 194, 253) 2px solid;
+}
