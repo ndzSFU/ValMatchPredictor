@@ -193,6 +193,18 @@ public class PredictorController {
         return teamProfile;
     }
 
+    @PostMapping("/teamProfile")
+    public TeamProfile getTeamProfile(@RequestBody TeamRequest request) {
+        TeamProfile teamProfile = new TeamProfile();
+        teamProfile.setTeamName(request.getTeam());
+        try {
+            teamProfile.setMatches(dataService.fetchTeamMatches(teamProfile.getTeamName()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return teamProfile;
+    }
+
 
 
 

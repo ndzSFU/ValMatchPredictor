@@ -50,6 +50,7 @@ public class DataService {
     String lev_id = "2359";
     String kru_id = "2355"; // Added KRU Esports ID for completeness
     String mibr_id = "7386";
+    String fnc_id = "2593";
 
 
     //Takes the nicely capitalized version of the name displayed on the front end and return the team ID
@@ -73,6 +74,8 @@ public class DataService {
                 return kru_id; // Added KRU Esports ID
             case "MIBR":
                 return mibr_id; // Added MIBR ID
+            case "FNATIC":
+                return fnc_id; // Added FNATIC ID
             default:
                 return "0"; // or throw an exception if team not found
         }
