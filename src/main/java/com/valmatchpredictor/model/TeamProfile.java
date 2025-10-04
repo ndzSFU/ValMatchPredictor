@@ -60,6 +60,7 @@ public class TeamProfile {
                 addToMapTally(matchMap);
             }
         }
+
         for(Map map : teamMaps) {
             map.calculateWinRate();
         }

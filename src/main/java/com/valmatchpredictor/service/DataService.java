@@ -16,30 +16,30 @@ import java.util.List;
 
 @Service
 public class DataService {
-    private final String TEAMS_API_URL = "https://vlrggapi.vercel.app/rankings?region=na";
-
-    public RankingResponse getRankingResponse(){
-        RestTemplate restTemplate = new RestTemplate();
-        RankingResponse ranking_response = restTemplate.getForObject(TEAMS_API_URL, RankingResponse.class);
-        return ranking_response;
-    }
-
-    private final String MATCHES_API_URL = "https://vlrggapi.vercel.app/match?q=results";
-    public List<Match> fetchMatchUps(String team1, String team2){
-
-            RestTemplate restTemplate = new RestTemplate();
-            MatchesResponse matchesResponse = restTemplate.getForObject(MATCHES_API_URL, MatchesResponse.class);
-            List<Match> allMatches = matchesResponse.getData().getSegments();
-            List<Match> matchUps = new ArrayList<>();
-
-            for(Match match : allMatches){
-                if(match.getTeam1().equals(team1) || match.getTeam2().equals(team1)
-                || match.getTeam1().equals(team2) || match.getTeam2().equals(team2)){
-                    matchUps.add(match);
-                }
-            }
-            return allMatches;
-    }
+//    private final String TEAMS_API_URL = "https://vlrggapi.vercel.app/rankings?region=na";
+//
+//    public RankingResponse getRankingResponse(){
+//        RestTemplate restTemplate = new RestTemplate();
+//        RankingResponse ranking_response = restTemplate.getForObject(TEAMS_API_URL, RankingResponse.class);
+//        return ranking_response;
+//    }
+//
+//    private final String MATCHES_API_URL = "https://vlrggapi.vercel.app/match?q=results";
+//    public List<Match> fetchMatchUps(String team1, String team2){
+//
+//            RestTemplate restTemplate = new RestTemplate();
+//            MatchesResponse matchesResponse = restTemplate.getForObject(MATCHES_API_URL, MatchesResponse.class);
+//            List<Match> allMatches = matchesResponse.getData().getSegments();
+//            List<Match> matchUps = new ArrayList<>();
+//
+//            for(Match match : allMatches){
+//                if(match.getTeam1().equals(team1) || match.getTeam2().equals(team1)
+//                || match.getTeam1().equals(team2) || match.getTeam2().equals(team2)){
+//                    matchUps.add(match);
+//                }
+//            }
+//            return allMatches;
+//    }
 
     String nrg_id = "1034";
     String g2_id = "11058";

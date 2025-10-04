@@ -6,4 +6,4 @@ def test_predict_endpoint():
     assert response.status_code == 200
     assert "winner" in response.json()
     assert "probability" in response.json()
-    assert response.json()["probability"] > 0.0
+    assert response.json()["probability"] > 0.0 and response.json()["probability"] < 100.0

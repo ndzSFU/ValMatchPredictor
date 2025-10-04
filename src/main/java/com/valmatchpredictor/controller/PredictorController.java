@@ -34,34 +34,34 @@ public class PredictorController {
     @Autowired
     private DataService dataService;
 
-    @GetMapping("/teams")
-    public List<Team_Old_API> showTeam(String teamName){
-        try {
-            List<Team_Old_API> allTeams = dataService.getRankingResponse().getTeams();
-            List<Team_Old_API> Tier1Teams = new ArrayList<>();
-            for (Team_Old_API team : allTeams) {
-                if(isTier1(team.getName())) {
-                    Tier1Teams.add(team);
-                }
-            }
-            System.out.println("Teams fetched: " + Tier1Teams.size());
-            return Tier1Teams;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return Collections.emptyList(); // or handle error properly
-        }
-    }
-
-    @GetMapping("/matchUps")
-    public List<Match> showMatchUps(String teamName1, String teamName2){
-        try{
-            List<Match> matchUps = dataService.fetchMatchUps("G2 Esports","Sentinels");
-            return matchUps;
-        } catch (Exception e) {
-        e.printStackTrace();
-        return Collections.emptyList(); // or handle error properly
-        }
-    }
+//    @GetMapping("/teams")
+//    public List<Team_Old_API> showTeam(String teamName){
+//        try {
+//            List<Team_Old_API> allTeams = dataService.getRankingResponse().getTeams();
+//            List<Team_Old_API> Tier1Teams = new ArrayList<>();
+//            for (Team_Old_API team : allTeams) {
+//                if(isTier1(team.getName())) {
+//                    Tier1Teams.add(team);
+//                }
+//            }
+//            System.out.println("Teams fetched: " + Tier1Teams.size());
+//            return Tier1Teams;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return Collections.emptyList(); // or handle error properly
+//        }
+//    }
+//
+//    @GetMapping("/matchUps")
+//    public List<Match> showMatchUps(String teamName1, String teamName2){
+//        try{
+//            List<Match> matchUps = dataService.fetchMatchUps("G2 Esports","Sentinels");
+//            return matchUps;
+//        } catch (Exception e) {
+//        e.printStackTrace();
+//        return Collections.emptyList(); // or handle error properly
+//        }
+//    }
 
 
 
