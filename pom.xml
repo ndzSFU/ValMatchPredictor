@@ -100,7 +100,6 @@
 						</configuration>
 					</execution>
 
-					<!-- running npm install -->
 					<execution>
 						<id>npm install</id>
 						<goals>
@@ -112,7 +111,6 @@
 						</configuration>
 					</execution>
 
-					<!-- build our production version -->
 					<execution>
 						<id>npm build</id>
 						<goals>
