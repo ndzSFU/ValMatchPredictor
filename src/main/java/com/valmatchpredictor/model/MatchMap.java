@@ -1,6 +1,6 @@
 package com.valmatchpredictor.model;
 
-public class PlayedMap {
+public class MatchMap {
     private String mapName;
     private String team1;
     private String team2;
@@ -31,6 +31,7 @@ public class PlayedMap {
     public void setTeam1(String team1) {
         this.team1 = team1;
     }
+
 
     public String getTeam2() {
         return team2;

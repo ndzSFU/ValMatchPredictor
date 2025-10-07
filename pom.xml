@@ -130,7 +130,6 @@
 				</configuration>
 			</plugin>
 
-			<!-- copy our react to build artifacts to spring boot -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>

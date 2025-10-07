@@ -1,10 +1,7 @@
 package com.valmatchpredictor.service;
-import com.valmatchpredictor.model.PlayedMap;
+import com.valmatchpredictor.model.MatchMap;
 import com.valmatchpredictor.model.Match;
-import com.valmatchpredictor.model.MatchesResponse;
-import com.valmatchpredictor.model.RankingResponse;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -135,7 +132,7 @@ public class DataService {
             match.setScore2(score2);
             //match.setTimeUntilMatch(date + " " + time);
 
-            List<PlayedMap> playedMaps = new ArrayList<>();
+            List<MatchMap> matchMaps = new ArrayList<>();
 
             try {
                 Document matchDoc = Jsoup.connect(matchUrl).get();
@@ -143,7 +140,7 @@ public class DataService {
                 if (statsContainer != null) {
                     Elements mapDivs = statsContainer.select("div.vm-stats-game");
                     for (Element mapDiv : mapDivs) {
-                        PlayedMap playedMap = new PlayedMap();
+                        MatchMap matchMap = new MatchMap();
                         // Extract map name
                         Element header = mapDiv.selectFirst(".vm-stats-game-header");
                         if (header != null) {
@@ -156,35 +153,35 @@ public class DataService {
                                 Element team2NameElem = teams.get(1).selectFirst(".team-name");
                                 Element score2Elem = teams.get(1).selectFirst(".score");
 
-                                playedMap.setTeam1(team1NameElem != null ? team1NameElem.text().trim() : null);
-                                playedMap.setScore1(score1Elem != null ? score1Elem.text().trim() : null);
-                                playedMap.setTeam2(team2NameElem != null ? team2NameElem.text().trim() : null);
-                                playedMap.setScore2(score2Elem != null ? score2Elem.text().trim() : null);
+                                matchMap.setTeam1(team1NameElem != null ? team1NameElem.text().trim() : null);
+                                matchMap.setScore1(score1Elem != null ? score1Elem.text().trim() : null);
+                                matchMap.setTeam2(team2NameElem != null ? team2NameElem.text().trim() : null);
+                                matchMap.setScore2(score2Elem != null ? score2Elem.text().trim() : null);
 
                                 // Determine winner
                                 try {
-                                    int s1 = Integer.parseInt(playedMap.getScore1().trim());
-                                    int s2 = Integer.parseInt(playedMap.getScore2().trim());
-                                    playedMap.setWinner(s1 > s2 ? playedMap.getTeam1() : playedMap.getTeam2());
+                                    int s1 = Integer.parseInt(matchMap.getScore1().trim());
+                                    int s2 = Integer.parseInt(matchMap.getScore2().trim());
+                                    matchMap.setWinner(s1 > s2 ? matchMap.getTeam1() : matchMap.getTeam2());
                                 } catch (Exception ignored) {}
                             }
 
                             // Map name
                             Element mapNameElem = header.selectFirst(".map > div > span");
                             if (mapNameElem != null) {
-                                playedMap.setMapName(mapNameElem.ownText().trim());
+                                matchMap.setMapName(mapNameElem.ownText().trim());
                             } else {
-                                playedMap.setMapName("Unknown Map");
+                                matchMap.setMapName("Unknown Map");
                             }
                         }
 
-                        if(playedMap.getMapName() != null) playedMaps.add(playedMap);
+                        if(matchMap.getMapName() != null) matchMaps.add(matchMap);
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            match.setMaps(playedMaps);
+            match.setMaps(matchMaps);
 
             matches.add(match);
         }

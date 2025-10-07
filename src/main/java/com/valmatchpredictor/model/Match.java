@@ -12,14 +12,14 @@ public class Match {
     private String tournament_name;
     @JsonProperty("match_page")
     private String matchUrl;
-    private List<PlayedMap> playedMaps;
+    private List<MatchMap> matchMaps;
 
-    public List<PlayedMap> getMaps() {
-        return playedMaps;
+    public List<MatchMap> getMaps() {
+        return matchMaps;
     }
 
-    public void setMaps(List<PlayedMap> playedMaps) {
-        this.playedMaps = playedMaps;
+    public void setMaps(List<MatchMap> matchMaps) {
+        this.matchMaps = matchMaps;
     }
 
     // Getters

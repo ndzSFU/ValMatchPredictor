@@ -27,20 +27,20 @@ public class TeamProfile {
         return teamMaps;
     }
 
-    private void addToMapTally(PlayedMap playedMap) {
+    private void addToMapTally(MatchMap matchMap) {
         for(Map map : teamMaps) {
-            if (playedMap.getMapName().equals(map.getName())) {
-                int score1 = Integer.parseInt(playedMap.getScore1());
-                int score2 = Integer.parseInt(playedMap.getScore2());
+            if (matchMap.getMapName().equals(map.getName())) {
+                int score1 = Integer.parseInt(matchMap.getScore1());
+                int score2 = Integer.parseInt(matchMap.getScore2());
                 map.played();
                 map.addRoundsPlayed(score1 + score2);
                 map.addMatch();
                 int roundsWon = 0;
                 int roundsLost = 0;
-                if (playedMap.getTeam1().equals(teamName)) {
+                if (matchMap.getTeam1().equals(teamName)) {
                     roundsWon = score1;
                     roundsLost = score2;
-                }else if (playedMap.getTeam2().equals(teamName)) {
+                }else if (matchMap.getTeam2().equals(teamName)) {
                     roundsWon = score2;
                     roundsLost = score1;
                 }
@@ -56,7 +56,7 @@ public class TeamProfile {
         this.matches = matches;
 
         for(Match match : matches) {
-            for(PlayedMap matchMap : match.getMaps()) {
+            for(MatchMap matchMap : match.getMaps()) {
                 addToMapTally(matchMap);
             }
         }
