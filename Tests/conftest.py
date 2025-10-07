@@ -5,6 +5,10 @@ import requests
 def Predict_URL():
     return "http://localhost:8081/api/predict"
 
+@pytest.fixture
+def db_test_URL():
+    return "http://localhost:8081/api/teamProfileTest"
+
 # Default payload fixture
 @pytest.fixture
 def payload():

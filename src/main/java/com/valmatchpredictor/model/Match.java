@@ -1,10 +1,16 @@
 package com.valmatchpredictor.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+import jakarta.persistence.*;
 import java.util.List;
 
+@Entity
 public class Match {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String team1;
     private String team2;
     private String score1;
@@ -12,6 +18,13 @@ public class Match {
     private String tournament_name;
     @JsonProperty("match_page")
     private String matchUrl;
+
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "match_id")
     private List<MatchMap> matchMaps;
 
     public List<MatchMap> getMaps() {
@@ -70,5 +83,9 @@ public class Match {
 
     public void setMatchUrl(String matchUrl) {
         this.matchUrl = matchUrl;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 }

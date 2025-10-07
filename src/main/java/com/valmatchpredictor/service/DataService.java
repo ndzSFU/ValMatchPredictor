@@ -1,15 +1,20 @@
 package com.valmatchpredictor.service;
-import com.valmatchpredictor.model.MatchMap;
+
 import com.valmatchpredictor.model.Match;
-import org.springframework.stereotype.Service;
+import com.valmatchpredictor.model.MatchMap;
+import com.valmatchpredictor.model.Team;
+import com.valmatchpredictor.model.TeamMatchesRepo;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 public class DataService {
@@ -38,6 +43,10 @@ public class DataService {
 //            return allMatches;
 //    }
 
+    @Autowired
+    private TeamMatchesRepo teamRepo;
+
+
     String nrg_id = "1034";
     String g2_id = "11058";
     String sen_id = "2";
@@ -49,63 +58,60 @@ public class DataService {
     String mibr_id = "7386";
     String fnc_id = "2593";
 
+    public DataService(TeamMatchesRepo teamRepo) {
+        this.teamRepo = teamRepo;
+    }
+
     //Takes the nicely capitalized version of the name displayed on the front-end and return the team ID (for the vlr url)
-    public String getTeamID (String teamName) {
-        switch (teamName) {
-            case "NRG":
-                return nrg_id;
-            case "G2 Esports":
-                return g2_id;
-            case "Sentinels":
-                return sen_id;
-            case "100 Thieves":
-                return t100_id;
-            case "Cloud9":
-                return cloud9_id;
-            case "Evil Geniuses":
-                return eg_id;
-            case "LEVIATÁN":
-                return lev_id;
-            case "KRÜ Esports":
-                return kru_id;
-            case "MIBR":
-                return mibr_id;
-            case "FNATIC":
-                return fnc_id;
-            default:
-                return "0";
-        }
+    public String getTeamID(String teamName) {
+        return switch (teamName) {
+            case "NRG" -> nrg_id;
+            case "G2 Esports" -> g2_id;
+            case "Sentinels" -> sen_id;
+            case "100 Thieves" -> t100_id;
+            case "Cloud9" -> cloud9_id;
+            case "Evil Geniuses" -> eg_id;
+            case "LEVIATÁN" -> lev_id;
+            case "KRÜ Esports" -> kru_id;
+            case "MIBR" -> mibr_id;
+            case "FNATIC" -> fnc_id;
+            default -> "0";
+        };
     }
 
     //Takes the nicely capitalized version of the name displayed on the front-end and returns what their name is in the vlr url
     public String getTeamNameUrlFormat(String teamName) {
-        switch (teamName) {
-            case "NRG":
-                return "nrg";
-            case "G2 Esports":
-                return "g2-esports";
-            case "FNATIC":
-                return "fnatic";
-            case "Sentinels":
-                return "sentinels";
-            case "100 Thieves":
-                return "100-thieves";
-            case "Cloud9":
-                return "cloud9";
-            case "Evil Geniuses":
-                return "evil-geniuses";
-            case "LEVIATÁN":
-                return "leviat-n";
-            case "KRÜ Esports":
-                return "kr-esports";
-            case "MIBR":
-                return "mibr";
-            default:
-                return teamName;
-        }
+        return switch (teamName) {
+            case "NRG" -> "nrg";
+            case "G2 Esports" -> "g2-esports";
+            case "FNATIC" -> "fnatic";
+            case "Sentinels" -> "sentinels";
+            case "100 Thieves" -> "100-thieves";
+            case "Cloud9" -> "cloud9";
+            case "Evil Geniuses" -> "evil-geniuses";
+            case "LEVIATÁN" -> "leviat-n";
+            case "KRÜ Esports" -> "kr-esports";
+            case "MIBR" -> "mibr";
+            default -> teamName;
+        };
     }
 
-    public List<Match> fetchTeamMatches(String teamName) throws IOException {
+    public Team updateMatches(String teamName) throws IOException {
+        List<Match> matches = ScrapeTeamMatches(teamName);
+        Team team = teamRepo.findByteamName(teamName).orElseGet(() -> {
+                    Team newTeam = new Team();
+                    newTeam.setTeamName(teamName);
+                    return newTeam;
+                });
+        team.setMatches(matches);
+        return teamRepo.save(team);
+    }
+
+    public List<Match> lookupMatches(Team team) {
+        return team.getMatches();
+    }
+
+    public List<Match> ScrapeTeamMatches(String teamName) throws IOException {
 
         String url = "https://www.vlr.gg/team/matches/" + getTeamID(teamName) + "/" + getTeamNameUrlFormat(teamName) + "/";
         Document doc = Jsoup.connect(url).get();
@@ -120,7 +126,7 @@ public class DataService {
             Elements scores = matchElem.select(".m-item-result span");
             String score1 = scores.size() > 0 ? scores.get(0).text() : "";
             String score2 = scores.size() > 1 ? scores.get(1).text() : "";
-            String date = matchElem.select(".m-item-date div").text();
+            //String date = matchElem.select(".m-item-date div").text();
             //String time = matchElem.select(".m-item-date").ownText();
 
             Match match = new Match();
@@ -163,7 +169,8 @@ public class DataService {
                                     int s1 = Integer.parseInt(matchMap.getScore1().trim());
                                     int s2 = Integer.parseInt(matchMap.getScore2().trim());
                                     matchMap.setWinner(s1 > s2 ? matchMap.getTeam1() : matchMap.getTeam2());
-                                } catch (Exception ignored) {}
+                                } catch (Exception ignored) {
+                                }
                             }
 
                             // Map name
@@ -175,7 +182,7 @@ public class DataService {
                             }
                         }
 
-                        if(matchMap.getMapName() != null) matchMaps.add(matchMap);
+                        if (matchMap.getMapName() != null) matchMaps.add(matchMap);
                     }
                 }
             } catch (Exception e) {
@@ -187,12 +194,4 @@ public class DataService {
         }
         return matches;
     }
-
-
-
-
-
-
-
-
 }

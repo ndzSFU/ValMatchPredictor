@@ -68,7 +68,7 @@ public class PredictorController {
     @GetMapping("/teamMatches")
     public List<Match> showTeamMatches(String teamName){
         try{
-            return dataService.fetchTeamMatches("G2 Esports");
+            return dataService.ScrapeTeamMatches("G2 Esports");
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -164,8 +164,8 @@ public class PredictorController {
         try{
             Team1.setTeamName(request.getTeam1());
             Team2.setTeamName(request.getTeam2());
-            Team1.setMatches(dataService.fetchTeamMatches(Team1.getTeamName()));
-            Team2.setMatches(dataService.fetchTeamMatches(Team2.getTeamName()));
+            Team1.setMatches(dataService.ScrapeTeamMatches(Team1.getTeamName()));
+            Team2.setMatches(dataService.ScrapeTeamMatches(Team2.getTeamName()));
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -182,15 +182,16 @@ public class PredictorController {
     }
 
     @GetMapping("/teamProfileTest")
-    public TeamProfile getTeamProfileTest() {
+    public ResponseEntity<TeamProfile> getTeamProfileTest() {
         TeamProfile teamProfile = new TeamProfile();
-        teamProfile.setTeamName("Evil Geniuses");
+        teamProfile.setTeamName("NRG");
         try {
-            teamProfile.setMatches(dataService.fetchTeamMatches(teamProfile.getTeamName()));
+            Team t = dataService.updateMatches(teamProfile.getTeamName());
+            teamProfile.setMatches(dataService.lookupMatches(t));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return teamProfile;
+        return ResponseEntity.ok(teamProfile);
     }
 
     @PostMapping("/teamProfile")
@@ -198,7 +199,8 @@ public class PredictorController {
         TeamProfile teamProfile = new TeamProfile();
         teamProfile.setTeamName(request.getTeam());
         try {
-            teamProfile.setMatches(dataService.fetchTeamMatches(teamProfile.getTeamName()));
+            Team t = dataService.updateMatches(teamProfile.getTeamName());
+            teamProfile.setMatches(dataService.lookupMatches(t));
         } catch (IOException e) {
             e.printStackTrace();
         }
