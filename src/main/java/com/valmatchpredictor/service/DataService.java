@@ -1,9 +1,6 @@
 package com.valmatchpredictor.service;
 
-import com.valmatchpredictor.model.Match;
-import com.valmatchpredictor.model.MatchMap;
-import com.valmatchpredictor.model.Team;
-import com.valmatchpredictor.model.TeamMatchesRepo;
+import com.valmatchpredictor.model.*;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -45,6 +42,9 @@ public class DataService {
 
     @Autowired
     private TeamMatchesRepo teamRepo;
+
+    @Autowired
+    private MatchRepo matchRepo;
 
 
     String nrg_id = "1034";
@@ -97,7 +97,16 @@ public class DataService {
     }
 
     public Team updateMatches(String teamName) throws IOException {
-        List<Match> matches = ScrapeTeamMatches(teamName);
+        List<Match> matches;
+        if(teamRepo.findByteamName(teamName) == null){
+            matches = ScrapeTeamMatches(teamName);
+        }
+
+        // Note that the original owner of the match is always team1
+        // SO finding by team1 means we get all matches where teamName (team1) is the owner of the match
+        // i.e owner means it came from their match page
+        matches = matchRepo.findByteam1(teamName);
+
         Team team = teamRepo.findByteamName(teamName).orElseGet(() -> {
                     Team newTeam = new Team();
                     newTeam.setTeamName(teamName);
@@ -107,8 +116,8 @@ public class DataService {
         return teamRepo.save(team);
     }
 
-    public List<Match> lookupMatches(Team team) {
-        return team.getMatches();
+    public List<Match> lookupMatches(String teamName) throws IOException {
+        return  matchRepo.findByteam1(teamName);
     }
 
     public List<Match> ScrapeTeamMatches(String teamName) throws IOException {

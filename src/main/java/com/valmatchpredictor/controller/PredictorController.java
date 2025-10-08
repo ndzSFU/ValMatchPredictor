@@ -186,8 +186,8 @@ public class PredictorController {
         TeamProfile teamProfile = new TeamProfile();
         teamProfile.setTeamName("NRG");
         try {
-            Team t = dataService.updateMatches(teamProfile.getTeamName());
-            teamProfile.setMatches(dataService.lookupMatches(t));
+            //Team t = dataService.updateMatches(teamProfile.getTeamName());
+            teamProfile.setMatches(dataService.lookupMatches(teamProfile.getTeamName()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -199,8 +199,8 @@ public class PredictorController {
         TeamProfile teamProfile = new TeamProfile();
         teamProfile.setTeamName(request.getTeam());
         try {
-            Team t = dataService.updateMatches(teamProfile.getTeamName());
-            teamProfile.setMatches(dataService.lookupMatches(t));
+            //Team t = dataService.updateMatches(teamProfile.getTeamName());
+            teamProfile.setMatches(dataService.lookupMatches(teamProfile.getTeamName()));
         } catch (IOException e) {
             e.printStackTrace();
         }

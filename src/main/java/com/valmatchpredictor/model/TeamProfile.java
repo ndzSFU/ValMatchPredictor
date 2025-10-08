@@ -1,6 +1,7 @@
 package com.valmatchpredictor.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class TeamProfile {
@@ -17,6 +18,10 @@ public class TeamProfile {
             }
         }
         return LeastPlayedMap.getName();
+    }
+
+    public void sortMapsByAmountPlayed(){
+        Collections.sort(teamMaps);
     }
 
     public List<Match> getMatches() {

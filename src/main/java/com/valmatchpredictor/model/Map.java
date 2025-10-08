@@ -1,6 +1,6 @@
 package com.valmatchpredictor.model;
 
-public class Map {
+public class Map  implements Comparable<Map> {
     private String name;
     private int amountPlayed;
     private int roundWinRate;
@@ -9,6 +9,11 @@ public class Map {
     private int mathcesWon;
     private int mathcesPlayed;
     private int matchWinRate;
+
+    @Override
+    public int compareTo(Map other){
+        return Integer.compare(other.getAmountPlayed(), this.getAmountPlayed());
+    }
 
     public int getMathcesWon() {
         return mathcesWon;
