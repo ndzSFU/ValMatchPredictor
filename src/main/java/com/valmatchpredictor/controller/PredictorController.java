@@ -3,6 +3,7 @@ package com.valmatchpredictor.controller;
 import com.valmatchpredictor.model.*;
 import com.valmatchpredictor.service.DataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,7 +16,7 @@ import java.util.Objects;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/")
 public class PredictorController {
 
     private boolean isTier1(String teamName){
@@ -164,8 +165,8 @@ public class PredictorController {
         try{
             Team1.setTeamName(request.getTeam1());
             Team2.setTeamName(request.getTeam2());
-            Team1.setMatches(dataService.ScrapeTeamMatches(Team1.getTeamName()));
-            Team2.setMatches(dataService.ScrapeTeamMatches(Team2.getTeamName()));
+            Team1.setMatches(dataService.lookupMatches(Team1.getTeamName()));
+            Team2.setMatches(dataService.lookupMatches(Team2.getTeamName()));
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -207,7 +208,14 @@ public class PredictorController {
         return teamProfile;
     }
 
+    @PostMapping("/updateDB")
+    public ResponseEntity<Void> updateAllTeams(){
 
+        if(dataService.updateAllMatches()){
+            return ResponseEntity.status(HttpStatus.ACCEPTED).build();
+        }
+        return ResponseEntity.status(HttpStatus.INSUFFICIENT_STORAGE).build();
+    }
 
 
 }

@@ -46,6 +46,9 @@ public class DataService {
     @Autowired
     private MatchRepo matchRepo;
 
+    private String[] allTeams = {"NRG", "G2 Esports", "Sentinels", "100 Thieves", "Cloud9", "Evil Geniuses", "LEVIATÁN",
+            "KRÜ Esports", "MIBR", "FNATIC"};
+
 
     String nrg_id = "1034";
     String g2_id = "11058";
@@ -98,14 +101,14 @@ public class DataService {
 
     public Team updateMatches(String teamName) throws IOException {
         List<Match> matches;
-        if(teamRepo.findByteamName(teamName) == null){
+        if(teamRepo.findByteamName(teamName).isEmpty()){
             matches = ScrapeTeamMatches(teamName);
+        }else{
+            // Note that the original owner of the match is always team1
+            // SO finding by team1 means we get all matches where teamName (team1) is the owner of the match
+            // i.e owner means it came from their match page
+            matches = matchRepo.findByteam1(teamName);
         }
-
-        // Note that the original owner of the match is always team1
-        // SO finding by team1 means we get all matches where teamName (team1) is the owner of the match
-        // i.e owner means it came from their match page
-        matches = matchRepo.findByteam1(teamName);
 
         Team team = teamRepo.findByteamName(teamName).orElseGet(() -> {
                     Team newTeam = new Team();
@@ -118,6 +121,18 @@ public class DataService {
 
     public List<Match> lookupMatches(String teamName) throws IOException {
         return  matchRepo.findByteam1(teamName);
+    }
+
+    public boolean updateAllMatches() {
+        for(String team : allTeams) {
+            try{
+                updateMatches(team);
+            } catch(IOException e){
+                e.printStackTrace();
+                return false;
+            }
+        }
+        return true;
     }
 
     public List<Match> ScrapeTeamMatches(String teamName) throws IOException {

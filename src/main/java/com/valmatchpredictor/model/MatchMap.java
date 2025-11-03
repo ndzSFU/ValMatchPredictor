@@ -1,6 +1,7 @@
 package com.valmatchpredictor.model;
 import jakarta.persistence.*;
 
+//REPRESENTS A SINGLE MAP IN A MATCH SERIES (IN THE MATCH CLASS)
 @Entity
 public class MatchMap {
 
