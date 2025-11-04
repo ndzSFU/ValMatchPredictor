@@ -46,10 +46,33 @@ public class DataService {
     @Autowired
     private MatchRepo matchRepo;
 
-    private String[] allTeams = {"NRG", "G2 Esports", "Sentinels", "100 Thieves", "Cloud9", "Evil Geniuses", "LEVIATÁN",
-            "KRÜ Esports", "MIBR", "FNATIC"};
+    String[] allTeams = {
+            // Americas
+            "NRG",               "G2 Esports",        "Sentinels",         "100 Thieves",
+            "Cloud9",            "Evil Geniuses",     "LEVIATÁN",          "KRÜ Esports",
+            "MIBR",              "Furia",             "LOUD",              "ENVY",
+
+            // EMEA
+            "FNATIC",            "NAVI",              "Team Heretics",     "BBL Esports",
+            "Team Liquid",       "FUT Esports",       "Team Vitality",     "Gentle Mates",
+            "GIANTX",            "Karmine Corp",      "ULF Esports",       "BBL PCIFIC",
+
+            // APAC
+            "DetonatioN FocusMe","DRX",               "Gen.G",             "Global Esports",
+            "Paper Rex",         "Rex Regum Qeon",    "T1",                "TALON",
+            "Team Secret",       "ZETA DIVISION",     "SLT Seongnam",      "Nongshim RedForce",
+
+            // China
+            "All Gamers",        "Bilibili Gaming",   "EDward Gaming",     "FunPlus Phoenix",
+            "JDG Esports",       "Nova Esports",      "Titan Esports Club","Trace Esports",
+            "TYLOO",             "Wolves Esports",    "Xi Lai Gaming",     "Dragon Ranger Gaming"
+    };
 
 
+    private String[] allAmericasTeams = {"NRG", "G2 Esports", "Sentinels", "100 Thieves", "Cloud9", "Evil Geniuses", "LEVIATÁN",
+            "KRÜ Esports", "MIBR", "Furia", "ENVY", "LOUD"};
+
+    //NA teams
     String nrg_id = "1034";
     String g2_id = "11058";
     String sen_id = "2";
@@ -59,7 +82,52 @@ public class DataService {
     String lev_id = "2359";
     String kru_id = "2355";
     String mibr_id = "7386";
+    String furia_id = "2406";
+    String loud_id = "6961";
+    String envy_id = "427";
+
+
+    //EU teams
     String fnc_id = "2593";
+    String navi_id = "4915";
+    String th_id = "1001";
+    String bbl_id = "397";
+    String tl_id = "474";
+    String fut_id = "1184";
+    String vit_id = "2059";
+    String m8_id = "12694";
+    String gx_id = "14419";
+    String kc_id = "8877";
+    String ulf_id = "18019";
+    String bbl_pc_id = "16616";
+
+    //APAC
+    String dfm_id = "278";
+    String drx_id = "8185";
+    String geng_id = "17";
+    String ge_id = "918";
+    String prx_id = "624";
+    String rrq_id = "878";
+    String t1_id = "14";
+    String tln_id = "8304";
+    String ts_id = "6199";
+    String zeta_id = "5448";
+    String slt_id = "12446";
+    String nsrf_id = "11060";
+
+    //China
+    String ag_id = "1119";
+    String blg_id = "12010";
+    String edg_id = "1120";
+    String fpx_id = "11328";
+    String jdg_id = "13576";
+    String nova_id = "12064";
+    String tec_id = "14137";
+    String te_id = "12685";
+    String tyloo_id = "731";
+    String wol_id = "13790";
+    String xlg_id = "13581";
+    String drg_id = "11981";
 
     public DataService(TeamMatchesRepo teamRepo) {
         this.teamRepo = teamRepo;
@@ -77,7 +145,52 @@ public class DataService {
             case "LEVIATÁN" -> lev_id;
             case "KRÜ Esports" -> kru_id;
             case "MIBR" -> mibr_id;
+            case "Furia" -> furia_id;
+            case "LOUD" -> loud_id;
+            case "ENVY" -> envy_id;
+
+            //Eu
             case "FNATIC" -> fnc_id;
+            case "NAVI" -> navi_id;
+            case "Team Heretics" -> th_id;
+            case "BBL Esports" -> bbl_id;
+            case "Team Liquid" -> tl_id;
+            case "FUT Esports" -> fut_id;
+            case "Team Vitality" -> vit_id;
+            case "Gentle Mates" -> m8_id;
+            case "GIANTX" -> gx_id;
+            case "Karmine Corp" -> kc_id;
+            case "ULF Esports" -> ulf_id;
+            case "BBL PCIFIC" -> bbl_pc_id;
+
+            //APAC
+            case "DetonatioN FocusMe" -> dfm_id;
+            case "DRX" -> drx_id;
+            case "Gen.G" -> geng_id;
+            case "Global Esports" -> ge_id;
+            case "Paper Rex" -> prx_id;
+            case "Rex Regum Qeon" -> rrq_id;
+            case "T1" -> t1_id;
+            case "TALON" -> tln_id;
+            case "Team Secret" -> ts_id;
+            case "ZETA DIVISION" -> zeta_id;
+            case "SLT Seongnam" -> slt_id;
+            case "Nongshim RedForce" -> nsrf_id;
+
+            //China
+            case "All Gamers" -> ag_id;
+            case "Bilibili Gaming" -> blg_id;
+            case "EDward Gaming" -> edg_id;
+            case "FunPlus Phoenix" -> fpx_id;
+            case "JDG Esports" -> jdg_id;
+            case "Nova Esports" -> nova_id;
+            case "Titan Esports Club" -> tec_id;
+            case "Trace Esports" -> te_id;
+            case "TYLOO" -> tyloo_id;
+            case "Wolves Esports" -> wol_id;
+            case "Xi Lai Gaming" -> xlg_id;
+            case "Dragon Ranger Gaming" -> drg_id;
+
             default -> "0";
         };
     }
@@ -85,9 +198,9 @@ public class DataService {
     //Takes the nicely capitalized version of the name displayed on the front-end and returns what their name is in the vlr url
     public String getTeamNameUrlFormat(String teamName) {
         return switch (teamName) {
+            //Americas
             case "NRG" -> "nrg";
             case "G2 Esports" -> "g2-esports";
-            case "FNATIC" -> "fnatic";
             case "Sentinels" -> "sentinels";
             case "100 Thieves" -> "100-thieves";
             case "Cloud9" -> "cloud9";
@@ -95,20 +208,69 @@ public class DataService {
             case "LEVIATÁN" -> "leviat-n";
             case "KRÜ Esports" -> "kr-esports";
             case "MIBR" -> "mibr";
+            case "Furia" -> "furia";
+            case "LOUD" -> "loud";
+            case "ENVY" -> "envy";
+
+            //EU
+            case "FNATIC" -> "fnatic";
+            case "NAVI" -> "natus-vincere";
+            case "Team Heretics" -> "team-heretics";
+            case "BBL Esports" -> "bbl-esports";
+            case "Team Liquid" -> "team-liquid";
+            case "FUT Esports" -> "fut-esports";
+            case "Team Vitality" -> "team-vitality";
+            case "Gentle Mates" -> "gentle-mates";
+            case "GIANTX" -> "giantx";
+            case "Karmine Corp" -> "karmine-corp";
+            case "ULF Esports" -> "ulf-esports";
+            case "BBL PCIFIC" -> "bbl-pcific";
+
+            //APAC
+            case "DetonatioN FocusMe" -> "detonation-focusme";
+            case "DRX" -> "drx";
+            case "Gen.G" -> "gen-g";
+            case "Global Esports" -> "global-esports";
+            case "Paper Rex" -> "paper-rex";
+            case "Rex Regum Qeon" -> "rex-regum-qeon";
+            case "T1" -> "t1";
+            case "TALON" -> "talon";
+            case "Team Secret" -> "team-secret";
+            case "ZETA DIVISION" -> "zeta-division";
+            case "SLT Seongnam" -> "slt-seongnam";
+            case "Nongshim RedForce" -> "nongshim-redforce";
+
+            //China
+            case "All Gamers" -> "all-gamers";
+            case "Bilibili Gaming" -> "bilibili-gaming";
+            case "EDward Gaming" -> "edward-gaming";
+            case "FunPlus Phoenix" -> "funplus-phoenix";
+            case "JDG Esports" -> "jdg-esports";
+            case "Nova Esports" -> "nova-esports";
+            case "Titan Esports Club" -> "titan-esports-club";
+            case "Trace Esports" -> "trace-esports";
+            case "TYLOO" -> "tyloo";
+            case "Wolves Esports" -> "wolves-esports";
+            case "Xi Lai Gaming" -> "xi-lai-gaming";
+            case "Dragon Ranger Gaming" -> "dragon-ranger-gaming";
+
             default -> teamName;
         };
     }
 
     public Team updateMatches(String teamName) throws IOException {
         List<Match> matches;
-        if(teamRepo.findByteamName(teamName).isEmpty()){
-            matches = ScrapeTeamMatches(teamName);
-        }else{
-            // Note that the original owner of the match is always team1
-            // SO finding by team1 means we get all matches where teamName (team1) is the owner of the match
-            // i.e owner means it came from their match page
-            matches = matchRepo.findByteam1(teamName);
-        }
+        //Scrape to hard update the games
+        matches = ScrapeTeamMatches(teamName);
+
+//        if(teamRepo.findByteamName(teamName).isEmpty()){
+//            matches = ScrapeTeamMatches(teamName);
+//        }else{
+//            // Note that the original owner of the match is always team1
+//            // SO finding by team1 means we get all matches where teamName (team1) is the owner of the match
+//            // i.e owner means it came from their match page
+//            matches = matchRepo.findByteam1(teamName);
+//        }
 
         Team team = teamRepo.findByteamName(teamName).orElseGet(() -> {
                     Team newTeam = new Team();
@@ -136,7 +298,7 @@ public class DataService {
     }
 
     public List<Match> ScrapeTeamMatches(String teamName) throws IOException {
-
+        //Incoming teamName should be the version displayed on the front end
         String url = "https://www.vlr.gg/team/matches/" + getTeamID(teamName) + "/" + getTeamNameUrlFormat(teamName) + "/";
         Document doc = Jsoup.connect(url).get();
         List<Match> matches = new ArrayList<>();
