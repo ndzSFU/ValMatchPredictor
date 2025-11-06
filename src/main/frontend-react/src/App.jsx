@@ -2,23 +2,41 @@ import React, { useState } from 'react';
 import Dropdown from './components/Dropdown/Dropdown';
 import DropdownItem from "./components/DropdownItem/DropdownItem";
 import './App.css';
+import SetTeamListButton from "./components/SetTeamButton/SetTeamListButton";
+
+const NA_teams = [
+    "NRG",               "G2 Esports",        "Sentinels",         "100 Thieves",
+    "Cloud9",            "Evil Geniuses",     "LEVIATÁN",          "KRÜ Esports",
+    "MIBR",              "Furia",             "LOUD",              "ENVY"
+]
+
+const EMEA_teams = [
+    "FNATIC",            "NAVI",              "Team Heretics",     "BBL Esports",
+    "Team Liquid",       "FUT Esports",       "Team Vitality",     "Gentle Mates",
+    "GIANTX",            "Karmine Corp",      "ULF Esports",       "BBL PCIFIC"
+]
+
+const APAC_teams = [
+    "DetonatioN FocusMe","DRX",               "Gen.G",             "Global Esports",
+    "Paper Rex",         "Rex Regum Qeon",    "T1",                "TALON",
+    "Team Secret",       "ZETA DIVISION",     "SLT Seongnam",      "Nongshim RedForce",
+]
+
+const CN_teams = [
+    "All Gamers",        "Bilibili Gaming",   "EDward Gaming",     "FunPlus Phoenix",
+    "JDG Esports",       "Nova Esports",      "Titan Esports Club","Trace Esports",
+    "TYLOO",             "Wolves Esports",    "Xi Lai Gaming",     "Dragon Ranger Gaming"
+]
 
 function App() {
     const [team1, setTeam1] = useState('');
     const [team2, setTeam2] = useState('');
     const [response, setResponse] = useState('');
-    const teams = [
-        "NRG",
-        "G2 Esports",
-        "FNATIC",
-        "Sentinels",
-        "100 Thieves",
-        "Cloud9",
-        "Evil Geniuses",
-        "LEVIATÁN",
-        "KRÜ Esports",
-        "MIBR"
-    ];
+    const [displayRegion1, setDisplayRegion1] = useState(NA_teams);
+    const [displayRegion2, setDisplayRegion2] = useState(NA_teams);
+
+
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -34,12 +52,32 @@ function App() {
         }
     };
 
+    const CreateButtonGroup = ({setDisplayRegion}) => {
+        return (
+            <div>
+                <SetTeamListButton title={"NA"} setTeamList={setDisplayRegion} teamList={NA_teams}></SetTeamListButton>
+
+                <SetTeamListButton title={"EMEA"} setTeamList={setDisplayRegion} teamList={EMEA_teams}></SetTeamListButton>
+
+                <SetTeamListButton title={"APAC"} setTeamList={setDisplayRegion} teamList={APAC_teams}></SetTeamListButton>
+
+                <SetTeamListButton title={"CHINA"} setTeamList={setDisplayRegion} teamList={CN_teams}></SetTeamListButton>
+            </div>
+
+        );
+    }
+
     return (
         <div>
             <form onSubmit={handleSubmit}>
                 <div className={"submit-container"}>
                     <button type="submit" disabled={!team1 || !team2}>Predict</button>
                 </div>
+                <div className={"set-list-btn-container"}>
+                    <CreateButtonGroup setDisplayRegion={setDisplayRegion1} />
+                    <CreateButtonGroup setDisplayRegion={setDisplayRegion2} />
+                </div>
+
                 <div className="dropdown">
                     <div className="dropdown">
                         <div className="content">
@@ -47,7 +85,7 @@ function App() {
                                 buttonText={team1 || "Select Team 1"}
                                 content={
                                     <>
-                                        {teams.map(team => (
+                                        {displayRegion1.map(team => (
                                             <DropdownItem key={team} onClick={() => setTeam1(team)}>
                                                 {team}
                                             </DropdownItem>
@@ -62,7 +100,7 @@ function App() {
                                 buttonText={team2 || "Select Team 2"}
                                 content={
                                     <>
-                                        {teams.map(team => (
+                                        {displayRegion2.map(team => (
                                             <DropdownItem key={team} onClick={() => setTeam2(team)}>
                                                 {team}
                                             </DropdownItem>
