@@ -68,10 +68,6 @@ public class DataService {
             "TYLOO",             "Wolves Esports",    "Xi Lai Gaming",     "Dragon Ranger Gaming"
     };
 
-
-    private String[] allAmericasTeams = {"NRG", "G2 Esports", "Sentinels", "100 Thieves", "Cloud9", "Evil Geniuses", "LEVIATÁN",
-            "KRÜ Esports", "MIBR", "Furia", "ENVY", "LOUD"};
-
     //NA teams
     String nrg_id = "1034";
     String g2_id = "11058";

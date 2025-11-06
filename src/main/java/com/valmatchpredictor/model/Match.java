@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.util.List;
 
-//REPRESENTS A COMPLETE MATCHIP SERIES BETWEEN 2 TEAMS
+//REPRESENTS A COMPLETE MATCHUP SERIES BETWEEN 2 TEAMS
 @Entity
 public class Match {
 
