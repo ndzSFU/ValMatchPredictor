@@ -10,26 +10,44 @@ const Dropdown = ({buttonText, content, onSelect}) => {
     const toggleOpen = () => setOpen((open) => !open);
 
     useEffect(() => {
-        const handler = (event) => {
-            if(dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setOpen(false);
-            }
+        if (!open) return;
+
+        const handleClick = (event) => {
+            // Don’t close if clicking inside the dropdown
+            if (dropdownRef.current && dropdownRef.current.contains(event.target)) return;
+            setOpen(false);
         };
-        document.addEventListener("click", handler);
-        return () => document.removeEventListener("click", handler);
-    }, [dropdownRef]);
+
+        document.addEventListener('click', handleClick);
+        return () => document.removeEventListener('click', handleClick);
+    }, [open]);
 
     // Wrap onSelect to close dropdown
-    const handleSelect = (value) => {
-        if (onSelect) onSelect(value);
+    const handleSelect = () => {
+        //if (onSelect) onSelect(value);
         setOpen(false);
     };
 
+    const renderedContent = React.Children.map(content, child =>
+        React.cloneElement(child, { onSelect: handleSelect })
+    );
+
     return (
         <div className="dropdown" ref={dropdownRef}>
-            <DropdownButton toggle={toggleOpen} open={open}>{buttonText}</DropdownButton>
+            <DropdownButton toggle={toggleOpen} open={open}>
+                {buttonText}
+            </DropdownButton>
+
             <DropdownContent open={open}>
-                {content}
+                {React.Children.map(content, (child) =>
+                    React.isValidElement(child)
+                        ? React.cloneElement(child, {
+                            onClick: () => {
+                                handleSelect();
+                            },
+                        })
+                        : child
+                )}
             </DropdownContent>
         </div>
     );

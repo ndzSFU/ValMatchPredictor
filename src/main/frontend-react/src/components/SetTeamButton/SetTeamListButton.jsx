@@ -3,7 +3,7 @@ import './SetDropdownList.css';
 
 const SetTeamListButton = ({title, teamList, setTeamList}) => {
     return (
-        <button className={"set-dropdown-list-btn"} onClick={() => {setTeamList(teamList)}}> {title}</button>
+        <button type="button" className={"set-dropdown-list-btn"} onClick={() => {setTeamList(teamList)}}> {title}</button>
     );
 }
 

@@ -67,9 +67,6 @@ function App() {
         );
     }
 
-    let selected1 = ""
-    let selected2 = ""
-
     return (
         <div>
             <form onSubmit={handleSubmit}>
@@ -89,7 +86,11 @@ function App() {
                                 content={
                                     <>
                                         {displayRegion1.map(team => (
-                                            <DropdownItem key={team} onClick={() => setTeam1(team)}>
+                                            <DropdownItem
+                                                key={team}
+                                                onClick={() => setTeam1(team)}
+                                                disabled={team === team2}
+                                            >
                                                 {team}
                                             </DropdownItem>
                                         ))}
@@ -104,7 +105,11 @@ function App() {
                                 content={
                                     <>
                                         {displayRegion2.map(team => (
-                                            <DropdownItem key={team} onClick={() => setTeam2(team)}>
+                                            <DropdownItem
+                                                key={team}
+                                                onClick={() => setTeam2(team)}
+                                                disabled={team === team1}
+                                            >
                                                 {team}
                                             </DropdownItem>
                                         ))}

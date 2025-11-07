@@ -2,14 +2,23 @@ import React from 'react';
 import { FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import './DropdownButton.css';
 
-const DropdownButton = ({children, open, toggle}) => {
+const DropdownButton = ({children, open, toggle, handleSelect}) => {
+    const handleClick = (e) => {
+        e.stopPropagation(); // prevent clicks from bubbling up to parent
+        toggle(open);
+    };
+
     return (
-        <div onClick={toggle} className={`dropdown-button ${open ? "button-open" : ""}`}>
-            {children}
+        <button
+            type="button"
+            onClick={handleClick}
+            className={`dropdown-button ${open ? "button-open" : ""}`}
+        >
+            <span className="button-text">{children}</span>
             <span className="toggle-icon">
                 {open ? <FaChevronUp /> : <FaChevronDown />}
             </span>
-        </div>
+        </button>
     );
 };
 

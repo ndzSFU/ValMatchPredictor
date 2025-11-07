@@ -1,9 +1,23 @@
 import React from 'react';
 import './DropdownItem.css';
 
-const DropdownItem = ({children, onClick}) => {
+const DropdownItem = ({children, onClick, disabled}) => {
+
+    const handleClick = (e) => {
+        e.stopPropagation();
+        if (!disabled && onClick) onClick();
+    };
+
     return (
-        <div className="dropdown-item" onClick={onClick}>
+        <div
+            onClick={handleClick}
+            className={`dropdown-item ${disabled ? "disabled" : ""}`}
+            style={{
+                opacity: disabled ? 0.5 : 1,
+                pointerEvents: disabled ? "none" : "auto",
+                cursor: disabled ? "not-allowed" : "pointer"
+            }}
+        >
             {children}
         </div>
     );
