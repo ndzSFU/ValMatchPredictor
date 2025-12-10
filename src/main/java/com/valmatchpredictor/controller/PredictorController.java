@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -34,37 +33,6 @@ public class PredictorController {
 
     @Autowired
     private DataService dataService;
-
-//    @GetMapping("/teams")
-//    public List<Team_Old_API> showTeam(String teamName){
-//        try {
-//            List<Team_Old_API> allTeams = dataService.getRankingResponse().getTeams();
-//            List<Team_Old_API> Tier1Teams = new ArrayList<>();
-//            for (Team_Old_API team : allTeams) {
-//                if(isTier1(team.getName())) {
-//                    Tier1Teams.add(team);
-//                }
-//            }
-//            System.out.println("Teams fetched: " + Tier1Teams.size());
-//            return Tier1Teams;
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return Collections.emptyList(); // or handle error properly
-//        }
-//    }
-//
-//    @GetMapping("/matchUps")
-//    public List<Match> showMatchUps(String teamName1, String teamName2){
-//        try{
-//            List<Match> matchUps = dataService.fetchMatchUps("G2 Esports","Sentinels");
-//            return matchUps;
-//        } catch (Exception e) {
-//        e.printStackTrace();
-//        return Collections.emptyList(); // or handle error properly
-//        }
-//    }
-
-
 
     @GetMapping("/teamMatches")
     public List<Match> showTeamMatches(String teamName){
@@ -195,13 +163,14 @@ public class PredictorController {
         return ResponseEntity.ok(teamProfile);
     }
 
-    @PostMapping("/teamProfile")
-    public TeamProfile getTeamProfile(@RequestBody TeamRequest request) {
+
+    @GetMapping("/teamProfile/{teamName}")
+    public TeamProfile getTeamProfile(@PathVariable String teamName) {
         TeamProfile teamProfile = new TeamProfile();
-        teamProfile.setTeamName(request.getTeam());
+        teamProfile.setTeamName(teamName);
         try {
             //Team t = dataService.updateMatches(teamProfile.getTeamName());
-            teamProfile.setMatches(dataService.lookupMatches(teamProfile.getTeamName()));
+            teamProfile.setMatches(dataService.lookupMatches(teamName));
         } catch (IOException e) {
             e.printStackTrace();
         }

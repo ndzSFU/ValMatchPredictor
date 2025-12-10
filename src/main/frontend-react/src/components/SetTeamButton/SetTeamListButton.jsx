@@ -1,9 +1,13 @@
-import React from 'react';
 import './SetDropdownList.css';
 
-const SetTeamListButton = ({title, teamList, setTeamList}) => {
+const SetTeamListButton = ({id, title, teamList, setTeamList, pressedButtonId, setPressedButtonId}) => {
     return (
-        <button type="button" className={"set-dropdown-list-btn"} onClick={() => {setTeamList(teamList)}}> {title}</button>
+        <button type="button"
+                onClick={() => {setTeamList(teamList); setPressedButtonId(id);}}
+                className={(id === pressedButtonId) ? "pressed-set-dropdown-list-btn" : "set-dropdown-list-btn"}
+                >
+                {title}
+        </button>
     );
 }
 

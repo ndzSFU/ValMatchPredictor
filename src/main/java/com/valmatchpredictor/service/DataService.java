@@ -9,6 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,10 +55,10 @@ public class DataService {
             // Americas
             "NRG",               "G2 Esports",        "Sentinels",         "100 Thieves",
             "Cloud9",            "Evil Geniuses",     "LEVIATÁN",          "KRÜ Esports",
-            "MIBR",              "Furia",             "LOUD",              "ENVY",
+            "MIBR",              "FURIA",             "LOUD",              "ENVY",
 
             // EMEA
-            "FNATIC",            "NAVI",              "Team Heretics",     "BBL Esports",
+            "FNATIC",            "Natus Vincere",              "Team Heretics",     "BBL Esports",
             "Team Liquid",       "FUT Esports",       "Team Vitality",     "Gentle Mates",
             "GIANTX",            "Karmine Corp",      "ULF Esports",       "BBL PCIFIC",
 
@@ -125,10 +130,6 @@ public class DataService {
     String xlg_id = "13581";
     String drg_id = "11981";
 
-    public DataService(TeamMatchesRepo teamRepo) {
-        this.teamRepo = teamRepo;
-    }
-
     //Takes the nicely capitalized version of the name displayed on the front-end and return the team ID (for the vlr url)
     public String getTeamID(String teamName) {
         return switch (teamName) {
@@ -141,13 +142,13 @@ public class DataService {
             case "LEVIATÁN" -> lev_id;
             case "KRÜ Esports" -> kru_id;
             case "MIBR" -> mibr_id;
-            case "Furia" -> furia_id;
+            case "FURIA" -> furia_id;
             case "LOUD" -> loud_id;
             case "ENVY" -> envy_id;
 
             //Eu
             case "FNATIC" -> fnc_id;
-            case "NAVI" -> navi_id;
+            case "Natus Vincere" -> navi_id;
             case "Team Heretics" -> th_id;
             case "BBL Esports" -> bbl_id;
             case "Team Liquid" -> tl_id;
@@ -204,13 +205,13 @@ public class DataService {
             case "LEVIATÁN" -> "leviat-n";
             case "KRÜ Esports" -> "kr-esports";
             case "MIBR" -> "mibr";
-            case "Furia" -> "furia";
+            case "FURIA" -> "furia";
             case "LOUD" -> "loud";
             case "ENVY" -> "envy";
 
             //EU
             case "FNATIC" -> "fnatic";
-            case "NAVI" -> "natus-vincere";
+            case "Natus Vincere" -> "natus-vincere";
             case "Team Heretics" -> "team-heretics";
             case "BBL Esports" -> "bbl-esports";
             case "Team Liquid" -> "team-liquid";
@@ -254,19 +255,16 @@ public class DataService {
         };
     }
 
-    public Team updateMatches(String teamName) throws IOException {
+    public boolean clearDatabase(){
+        matchRepo.deleteAll();
+        teamRepo.deleteAll();
+        return true;
+    }
+
+    public boolean updateMatches(String teamName) throws IOException {
         List<Match> matches;
         //Scrape to hard update the games
         matches = ScrapeTeamMatches(teamName);
-
-//        if(teamRepo.findByteamName(teamName).isEmpty()){
-//            matches = ScrapeTeamMatches(teamName);
-//        }else{
-//            // Note that the original owner of the match is always team1
-//            // SO finding by team1 means we get all matches where teamName (team1) is the owner of the match
-//            // i.e owner means it came from their match page
-//            matches = matchRepo.findByteam1(teamName);
-//        }
 
         Team team = teamRepo.findByteamName(teamName).orElseGet(() -> {
                     Team newTeam = new Team();
@@ -274,7 +272,9 @@ public class DataService {
                     return newTeam;
                 });
         team.setMatches(matches);
-        return teamRepo.save(team);
+        teamRepo.save(team);
+
+        return true;
     }
 
     public List<Match> lookupMatches(String teamName) throws IOException {
@@ -282,12 +282,13 @@ public class DataService {
     }
 
     public boolean updateAllMatches() {
+        clearDatabase();
         for(String team : allTeams) {
             try{
                 updateMatches(team);
             } catch(IOException e){
                 e.printStackTrace();
-                return false;
+                //return false;
             }
         }
         return true;
@@ -296,7 +297,8 @@ public class DataService {
     public List<Match> ScrapeTeamMatches(String teamName) throws IOException {
         //Incoming teamName should be the version displayed on the front end
         String url = "https://www.vlr.gg/team/matches/" + getTeamID(teamName) + "/" + getTeamNameUrlFormat(teamName) + "/";
-        Document doc = Jsoup.connect(url).get();
+        Document doc = Jsoup.connect(url).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                + "(KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36").timeout(60_000).get();
         List<Match> matches = new ArrayList<>();
 
         Elements matchLinks = doc.select("a.wf-card.m-item");
@@ -308,8 +310,16 @@ public class DataService {
             Elements scores = matchElem.select(".m-item-result span");
             String score1 = scores.size() > 0 ? scores.get(0).text() : "";
             String score2 = scores.size() > 1 ? scores.get(1).text() : "";
-            //String date = matchElem.select(".m-item-date div").text();
-            //String time = matchElem.select(".m-item-date").ownText();
+//            Element dateElem = matchElem.selectFirst(".moment-tz-convert");
+//
+//            String utcString = dateElem.attr("data-utc-ts");
+//
+//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//            LocalDateTime utcDateTime = LocalDateTime.parse(utcString, formatter);
+//
+//            ZonedDateTime utcZoned = utcDateTime.atZone(ZoneOffset.UTC);
+//            ZonedDateTime localZoned = utcZoned.withZoneSameInstant(ZoneId.systemDefault());
+//            LocalDateTime localDateTime = localZoned.toLocalDateTime();
 
             Match match = new Match();
             match.setMatchUrl(matchUrl);
@@ -318,12 +328,14 @@ public class DataService {
             match.setTeam2(team2);
             match.setScore1(score1);
             match.setScore2(score2);
-            //match.setTimeUntilMatch(date + " " + time);
+            //match.setMatchDate(localDateTime);
 
             List<MatchMap> matchMaps = new ArrayList<>();
 
+            System.out.println("Scraping matches for " + teamName);
             try {
-                Document matchDoc = Jsoup.connect(matchUrl).get();
+                Document matchDoc = Jsoup.connect(matchUrl).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                        + "(KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36").timeout(60_000).get();
                 Element statsContainer = matchDoc.selectFirst("div.vm-stats-container");
                 if (statsContainer != null) {
                     Elements mapDivs = statsContainer.select("div.vm-stats-game");

@@ -75,10 +75,10 @@ public class TeamProfile {
         teamMaps = new ArrayList<>();
         teamMaps.add(new Map("Ascent"));
         teamMaps.add(new Map("Haven"));
-        teamMaps.add(new Map("Icebox"));
+        teamMaps.add(new Map("Bind"));
         teamMaps.add(new Map("Lotus"));
-        teamMaps.add(new Map("Pearl"));
-        teamMaps.add(new Map("Split"));
+        teamMaps.add(new Map("Abyss"));
+        teamMaps.add(new Map("Corrode"));
         teamMaps.add(new Map("Sunset"));
     }
 

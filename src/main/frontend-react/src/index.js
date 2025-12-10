@@ -1,13 +1,43 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import Predict from './Predict';
 import reportWebVitals from './reportWebVitals';
+import {createBrowserRouter, RouterProvider, Link} from "react-router-dom";
+import TeamProfiles from "./TeamProfiles";
+import HomePage from "./HomePage";
+
+
+function ErrorPage(){
+    return(
+        <div className="flex flex-col gap-2">
+            Sorry Couldn't find the URL you requested.
+            <Link to="/">Go To Home Page</Link>
+        </div>
+
+    );
+}
+
+const router = createBrowserRouter([
+    {
+      path: '/',
+      element: <HomePage/>,
+      errorElement: <ErrorPage/>
+    },
+    {
+        path: '/Predict',
+        element: <Predict/>
+    },
+    {
+        path: '/Team',
+        element: <TeamProfiles/>
+    }
+])
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router}/>
   </React.StrictMode>
 );
 

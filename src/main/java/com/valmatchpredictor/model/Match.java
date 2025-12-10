@@ -3,6 +3,7 @@ package com.valmatchpredictor.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.util.List;
+import java.time.LocalDateTime;
 
 //REPRESENTS A COMPLETE MATCHUP SERIES BETWEEN 2 TEAMS
 @Entity
@@ -19,6 +20,7 @@ public class Match {
     private String tournament_name;
     @JsonProperty("match_page")
     private String matchUrl;
+    private LocalDateTime matchDate;
 
     @ManyToOne
     @JoinColumn(name = "team_id")
@@ -53,7 +55,13 @@ public class Match {
         return score2;
     }
 
+    public LocalDateTime getMatchDate() {
+        return matchDate;
+    }
+
     // Setters
+    public void setMatchDate(LocalDateTime matchDate) {this.matchDate = matchDate;}
+
     public void setTeam1(String team1) {
         this.team1 = team1;
     }
