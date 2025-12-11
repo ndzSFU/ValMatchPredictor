@@ -25,11 +25,11 @@ const router = createBrowserRouter([
       errorElement: <ErrorPage/>
     },
     {
-        path: '/Predict',
+        path: '/predict',
         element: <Predict/>
     },
     {
-        path: '/Team',
+        path: '/team',
         element: <TeamProfiles/>
     }
 ])

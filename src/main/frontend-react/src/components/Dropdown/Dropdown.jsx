@@ -3,8 +3,7 @@ import DropdownButton from "../DropdownButton/DropdownButton";
 import DropdownContent from "../DropdownContent/DropdownContent";
 import './Dropdown.css';
 
-const Dropdown = ({buttonText, content, onSelect}) => {
-    const [open, setOpen] = React.useState(false);
+const Dropdown = ({buttonText, content, open, setOpen}) => {
     const dropdownRef = useRef();
 
     const toggleOpen = () => setOpen((open) => !open);
@@ -28,9 +27,6 @@ const Dropdown = ({buttonText, content, onSelect}) => {
         setOpen(false);
     };
 
-    const renderedContent = React.Children.map(content, child =>
-        React.cloneElement(child, { onSelect: handleSelect })
-    );
 
     return (
         <div className="dropdown" ref={dropdownRef}>

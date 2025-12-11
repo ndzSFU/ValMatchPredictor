@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Dropdown from './components/Dropdown/Dropdown';
 import DropdownItem from "./components/DropdownItem/DropdownItem";
-import './App.css';
+import './Predict.css';
 import SetTeamListButton from "./components/SetTeamButton/SetTeamListButton";
 
 
@@ -78,19 +78,22 @@ function Predict() {
         }
     };
 
+    const [open1, setOpen1] = React.useState(false);
+    const [open2, setOpen2] = React.useState(false);
+
     return (
             <div>
                 <form onSubmit={handleSubmit}>
                     <div className={"submit-container"}>
                         <button type="submit" disabled={!team1 || !team2}>Predict</button>
                     </div>
+
                     <div className={"set-list-btn-container"}>
                         <CreateButtonGroup setDisplayRegion={setDisplayRegion1} />
                         <CreateButtonGroup setDisplayRegion={setDisplayRegion2} />
                     </div>
 
                     <div className="dropdown">
-                        <div className="dropdown">
                             <div className="content">
                                 <Dropdown
                                     buttonText={team1 || "Select Team 1"}
@@ -107,6 +110,8 @@ function Predict() {
                                             ))}
                                         </>
                                     }
+                                    open={open1}
+                                    setOpen={setOpen1}
                                 />
                             </div>
 
@@ -126,10 +131,12 @@ function Predict() {
                                             ))}
                                         </>
                                     }
+                                    open={open2}
+                                    setOpen={setOpen2}
                                 />
                             </div>
-                        </div>
                     </div>
+
 
                 </form>
                 <div className="response-container">

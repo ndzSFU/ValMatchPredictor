@@ -1,6 +1,11 @@
+import { NavLink } from "react-router";
+import NavBar from "./components/NavBar/NavBar";
+
 function HomePage() {
     return(
-        <div>Home Page</div>
+        <div>
+            <NavBar></NavBar>
+        </div>
     );
 }
 
