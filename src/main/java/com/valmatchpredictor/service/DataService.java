@@ -9,47 +9,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
 public class DataService {
-//    private final String TEAMS_API_URL = "https://vlrggapi.vercel.app/rankings?region=na";
-//
-//    public RankingResponse getRankingResponse(){
-//        RestTemplate restTemplate = new RestTemplate();
-//        RankingResponse ranking_response = restTemplate.getForObject(TEAMS_API_URL, RankingResponse.class);
-//        return ranking_response;
-//    }
-//
-//    private final String MATCHES_API_URL = "https://vlrggapi.vercel.app/match?q=results";
-//    public List<Match> fetchMatchUps(String team1, String team2){
-//
-//            RestTemplate restTemplate = new RestTemplate();
-//            MatchesResponse matchesResponse = restTemplate.getForObject(MATCHES_API_URL, MatchesResponse.class);
-//            List<Match> allMatches = matchesResponse.getData().getSegments();
-//            List<Match> matchUps = new ArrayList<>();
-//
-//            for(Match match : allMatches){
-//                if(match.getTeam1().equals(team1) || match.getTeam2().equals(team1)
-//                || match.getTeam1().equals(team2) || match.getTeam2().equals(team2)){
-//                    matchUps.add(match);
-//                }
-//            }
-//            return allMatches;
-//    }
 
     @Autowired
-    private TeamMatchesRepo teamRepo;
+    private TeamRepo teamRepo;
 
     @Autowired
     private MatchRepo matchRepo;
+
+
 
     String[] allTeams = {
             // Americas
@@ -72,6 +47,8 @@ public class DataService {
             "JDG Esports",       "Nova Esports",      "Titan Esports Club","Trace Esports",
             "TYLOO",             "Wolves Esports",    "Xi Lai Gaming",     "Dragon Ranger Gaming"
     };
+
+    List<String> allTeamsAR = new ArrayList<>(Arrays.asList(allTeams));
 
     //NA teams
     String nrg_id = "1034";
@@ -266,7 +243,7 @@ public class DataService {
         //Scrape to hard update the games
         matches = ScrapeTeamMatches(teamName);
 
-        Team team = teamRepo.findByteamName(teamName).orElseGet(() -> {
+        Team team = teamRepo.findByTeamName(teamName).orElseGet(() -> {
                     Team newTeam = new Team();
                     newTeam.setTeamName(teamName);
                     return newTeam;
@@ -294,6 +271,30 @@ public class DataService {
         return true;
     }
 
+    public Team fetchTeam(String teamName) throws IOException {
+        Optional<Team> teamOpt = teamRepo.findByTeamName(teamName);
+        return teamOpt.orElse(null);
+    }
+
+    public String fetchTeamLogoURL(String teamName) throws IOException {
+        Optional<String> logoUrlOpt = teamRepo.findLogoURLByTeamName(teamName);
+        return logoUrlOpt.orElse("no url");
+    }
+
+    private void saveTeamLogo(String teamName, String logoUrl) {
+        Optional<Team> possibleTeam = teamRepo.findByTeamName(teamName);
+        if (possibleTeam.isPresent()) {
+            Team team = possibleTeam.get();
+            team.setLogoURL(logoUrl);
+            teamRepo.save(team);
+        }else{
+            Team newTeam = new Team();
+            newTeam.setTeamName(teamName);
+            newTeam.setLogoURL(logoUrl);
+            teamRepo.save(newTeam);
+        }
+    }
+
     public List<Match> ScrapeTeamMatches(String teamName) throws IOException {
         //Incoming teamName should be the version displayed on the front end
         String url = "https://www.vlr.gg/team/matches/" + getTeamID(teamName) + "/" + getTeamNameUrlFormat(teamName) + "/";
@@ -307,9 +308,35 @@ public class DataService {
             String event = matchElem.selectFirst(".m-item-event .text-of").text();
             String team1 = matchElem.select(".m-item-team .m-item-team-name").first().text();
             String team2 = matchElem.select(".m-item-team.mod-right .m-item-team-name").text();
+
+            if(!allTeamsAR.contains(team1) && !allTeamsAR.contains(team2)){
+                continue; // Skip tier 2 matches
+            }
+
             Elements scores = matchElem.select(".m-item-result span");
             String score1 = scores.size() > 0 ? scores.get(0).text() : "";
             String score2 = scores.size() > 1 ? scores.get(1).text() : "";
+
+            Element team1LogoImg = matchElem.selectFirst(".m-item-logo img");
+
+            Element team2LogoImg = matchElem.selectFirst(".m-item-logo.mod-right img");
+
+            String team1LogoUrl = team1LogoImg != null
+                    ? team1LogoImg.absUrl("src")
+                    : "Could not find url";
+
+            String team2LogoUrl = team2LogoImg != null
+                    ? team2LogoImg.absUrl("src")
+                    : "could not find url2";
+
+            if (!team1LogoUrl.isEmpty() && allTeamsAR.contains(team1)) {
+                saveTeamLogo(team1, team1LogoUrl);
+            }
+
+            if (!team2LogoUrl.isEmpty() && allTeamsAR.contains(team2)) {
+                saveTeamLogo(team2, team2LogoUrl);
+            }
+
 //            Element dateElem = matchElem.selectFirst(".moment-tz-convert");
 //
 //            String utcString = dateElem.attr("data-utc-ts");

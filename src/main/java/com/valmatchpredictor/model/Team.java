@@ -10,6 +10,8 @@ public class Team {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String logoURL;
+
     private String teamName;;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -25,6 +27,18 @@ public class Team {
 
     public void setTeamName(String teamName) {
         this.teamName = teamName;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public String getLogoURL() {
+        return logoURL;
+    }
+
+    public void setLogoURL(String logoURL) {
+        this.logoURL = logoURL;
     }
 }
 

@@ -1,11 +1,15 @@
 package com.valmatchpredictor.model;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import java.util.List;
 import java.util.Optional;
 
-public interface TeamMatchesRepo extends JpaRepository<Team, Long> {
-    Optional<Team> findByteamName(String team1);
+public interface TeamRepo extends JpaRepository<Team, Long> {
+    Optional<Team> findByTeamName(String team1);
+
+    @Query("SELECT t.logoURL FROM Team t WHERE t.teamName = :teamName")
+    Optional<String> findLogoURLByTeamName(@Param("teamName") String teamName);
 
 }
 

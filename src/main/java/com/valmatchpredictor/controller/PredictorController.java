@@ -89,6 +89,9 @@ public class PredictorController {
         String t1Ban = t1.probableBan();
         String t2Ban = t2.probableBan();
 
+        prediction.setT1Ban(t1Ban);
+        prediction.setT2Ban(t2Ban);
+
         score1 += tallyWinRate(t1Stats, t1Ban, t2Ban);
         score2 += tallyWinRate(t2Stats, t1Ban, t2Ban);
 
@@ -135,6 +138,7 @@ public class PredictorController {
             Team2.setTeamName(request.getTeam2());
             Team1.setMatches(dataService.lookupMatches(Team1.getTeamName()));
             Team2.setMatches(dataService.lookupMatches(Team2.getTeamName()));
+
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -147,6 +151,14 @@ public class PredictorController {
         }
 
         PredictionResponse prediction = compareTeams(Team1, Team2);
+        try{
+            prediction.setT1LogoURL(dataService.fetchTeamLogoURL(Team1.getTeamName()));
+            prediction.setT2LogoURL(dataService.fetchTeamLogoURL(Team2.getTeamName()));
+        }catch(IOException e){
+            //Do nothing
+            //Don't need the logo yet
+        }
+
         return ResponseEntity.ok(prediction);
     }
 
