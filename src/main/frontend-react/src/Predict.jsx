@@ -3,6 +3,7 @@ import Dropdown from './components/Dropdown/Dropdown';
 import DropdownItem from "./components/DropdownItem/DropdownItem";
 import './Predict.css';
 import SetTeamListButton from "./components/SetTeamButton/SetTeamListButton";
+import Select from 'react-select'
 
 
 const NA_teams = [
@@ -81,6 +82,8 @@ function Predict() {
     const [open1, setOpen1] = React.useState(false);
     const [open2, setOpen2] = React.useState(false);
 
+    const logos_url_names= ["t1LogoURL", "t2LogoURL"];
+
     return (
             <div>
                 <form onSubmit={handleSubmit}>
@@ -145,12 +148,25 @@ function Predict() {
                             const data = JSON.parse(response);
                             return (
                                 <div>
-                                    {Object.entries(data).map(([key, value]) => (
-                                        <div key={key} className="response-row">
-                                            <span className="response-key">{key}:</span>
-                                            <span className="response-value">{String(value)}</span>
-                                        </div>
-                                    ))}
+                                    {Object.entries(data).map(([key, value]) => {
+                                        const isImage = logos_url_names.includes(key);
+
+                                        return (
+                                            <div key={key} className="response-row">
+                                                <span className="response-key">{key}:</span>
+
+                                                {isImage ? (
+                                                    <img
+                                                        src={value}
+                                                        alt={key}
+                                                        className="response-image"
+                                                    />
+                                                ) : (
+                                                    <span className="response-value">{String(value)}</span>
+                                                )}
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             );
                         } catch {

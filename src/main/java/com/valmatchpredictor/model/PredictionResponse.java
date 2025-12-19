@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class PredictionResponse {
     private String winner;
+    private String loser;
     private int probability;
     private double matchUpWinRate;
     private int score;
@@ -18,6 +19,14 @@ public class PredictionResponse {
     public PredictionResponse(String winner, int probability) {
         this.winner = winner;
         this.probability = probability;
+    }
+
+    public String getLoser() {
+        return loser;
+    }
+
+    public void setLoser(String loser) {
+        this.loser = loser;
     }
 
     public String getT1LogoURL() {

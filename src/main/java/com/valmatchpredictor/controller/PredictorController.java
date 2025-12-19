@@ -113,12 +113,14 @@ public class PredictorController {
         int t1probability = (int) (((double) score1 / (score1 + score2)) * 100);
         if(score1 > score2) {
             prediction.setWinner(t1.getTeamName());
+            prediction.setLoser(t2.getTeamName());
             prediction.setProbability(t1probability);
             prediction.setMatchUpWinRate(t1MatchupWinRate);
             prediction.setScore(score1);
             prediction.setTotalScore(score1 + score2);
         } else {
             prediction.setWinner(t2.getTeamName());
+            prediction.setLoser(t1.getTeamName());
             prediction.setProbability(100 - t1probability);
             prediction.setMatchUpWinRate(t2MatchupWinRate);
             prediction.setScore(score2);
