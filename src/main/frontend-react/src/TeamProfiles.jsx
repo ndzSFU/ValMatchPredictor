@@ -2,6 +2,7 @@ import { ALL_TEAMS } from "./Predict";
 
 import Select from 'react-select'
 import {useState} from "react";
+import NavBar from "./components/NavBar/NavBar";
 
 
 const TeamDropDownOptions = ALL_TEAMS.map(team => ({ value: team, label: team }));
@@ -33,7 +34,7 @@ function TeamProfiles(){
 
     return(
         <div>
-
+            <NavBar></NavBar>
             <form className="team-profiles-form" onSubmit={handleSubmit}>
                 <Select
                     options={TeamDropDownOptions}

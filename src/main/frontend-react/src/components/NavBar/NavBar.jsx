@@ -3,23 +3,35 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 // import NavDropdown from 'react-bootstrap/NavDropdown';
 import {NavLink} from "react-router";
+import './NavBar.css';
+import logo from "./transparent-logo.png";
+import noTextLogo from "./logo-no-text.png";
+
 
 export default function NavBar() {
     return (
-        <Navbar expand="lg" className="bg-body-tertiary">
-            <Container>
-                <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <NavLink to="/predict" end>
-                            Make a Prediction
-                        </NavLink>
-                        <NavLink to="/team">
-                            See Team Profiles
-                        </NavLink>
-                    </Nav>
-                </Navbar.Collapse>
+        <Navbar expand="lg" className="bg-dark" variant="dark">
+            <Container className="nav-bar-container d-flex align-items-center">
+                <Navbar.Brand href="/" className="d-flex align-items-center">
+                    <div className="logo-wrapper">
+                        <img
+                            src={noTextLogo}
+                            alt="Valorant Logo"
+                            className="navbar-logo"
+                        />
+                    </div>
+
+                </Navbar.Brand>
+
+                {/* Add ms-auto to push links to the right of brand */}
+                <Nav className="d-flex align-items-center ml-3">
+                    <NavLink to="/predict" className="nav-link">
+                        Predict
+                    </NavLink>
+                    <NavLink to="/team" className="nav-link">
+                        Team Profiles
+                    </NavLink>
+                </Nav>
             </Container>
         </Navbar>
     );

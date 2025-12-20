@@ -4,6 +4,7 @@ import DropdownItem from "./components/DropdownItem/DropdownItem";
 import './Predict.css';
 import SetTeamListButton from "./components/SetTeamButton/SetTeamListButton";
 import Select from 'react-select'
+import NavBar from "./components/NavBar/NavBar";
 
 
 const NA_teams = [
@@ -56,21 +57,30 @@ const CreateButtonGroup = ({setDisplayRegion}) => {
 }
 
 function Predict() {
-    const [team1, setTeam1] = useState('');
-    const [team2, setTeam2] = useState('');
+    const [team1, setTeam1] = useState(null);
+    const [team2, setTeam2] = useState(null);
     const [response, setResponse] = useState('');
     const [displayRegion1, setDisplayRegion1] = useState(NA_teams);
     const [displayRegion2, setDisplayRegion2] = useState(NA_teams);
+
+    const allTeamOptions = all_teams.map(team => ({
+        value: team,
+        label: team
+    }));
+
+    const team1_list = allTeamOptions.filter(team => team.value !== team2?.value);
+    const team2_list = allTeamOptions.filter(team => team.value !== team1?.value);
 
 
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        console.log("Request body: ", { team1, team2 });
         try {
             const res = await fetch('http://localhost:8081/predict', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ team1, team2 }),
+                body: JSON.stringify({ team1: team1.value, team2: team2.value, bestOf: "3"}),
             });
             const data = await res.json();
             setResponse(JSON.stringify(data));
@@ -86,60 +96,74 @@ function Predict() {
 
     return (
             <div>
+                <NavBar></NavBar>
                 <form onSubmit={handleSubmit}>
+
+
+                    {/*<div className={"set-list-btn-container"}>*/}
+                    {/*    <CreateButtonGroup setDisplayRegion={setDisplayRegion1} />*/}
+                    {/*    <CreateButtonGroup setDisplayRegion={setDisplayRegion2} />*/}
+                    {/*</div>*/}
+
+                    <div className="dropdown">
+                        <Select
+                            options={team1_list}
+                            value={team1}
+                            onChange={setTeam1}
+                            placeholder="Select Team 1"
+                        />
+                        <Select
+                            options={team2_list}
+                            value={team2}
+                            onChange={setTeam2}
+                            placeholder="Select Team 2"
+                        />
+                            {/*<div className="content">*/}
+                            {/*    <Dropdown*/}
+                            {/*        buttonText={team1 || "Select Team 1"}*/}
+                            {/*        content={*/}
+                            {/*            <>*/}
+                            {/*                {displayRegion1.map(team => (*/}
+                            {/*                    <DropdownItem*/}
+                            {/*                        key={team}*/}
+                            {/*                        onClick={() => setTeam1(team)}*/}
+                            {/*                        disabled={team === team2}*/}
+                            {/*                    >*/}
+                            {/*                        {team}*/}
+                            {/*                    </DropdownItem>*/}
+                            {/*                ))}*/}
+                            {/*            </>*/}
+                            {/*        }*/}
+                            {/*        open={open1}*/}
+                            {/*        setOpen={setOpen1}*/}
+                            {/*    />*/}
+                            {/*</div>*/}
+
+                            {/*<div className="content">*/}
+                            {/*    <Dropdown*/}
+                            {/*        buttonText={team2 || "Select Team 2"}*/}
+                            {/*        content={*/}
+                            {/*            <>*/}
+                            {/*                {displayRegion2.map(team => (*/}
+                            {/*                    <DropdownItem*/}
+                            {/*                        key={team}*/}
+                            {/*                        onClick={() => setTeam2(team)}*/}
+                            {/*                        disabled={team === team1}*/}
+                            {/*                    >*/}
+                            {/*                        {team}*/}
+                            {/*                    </DropdownItem>*/}
+                            {/*                ))}*/}
+                            {/*            </>*/}
+                            {/*        }*/}
+                            {/*        open={open2}*/}
+                            {/*        setOpen={setOpen2}*/}
+                            {/*    />*/}
+                            {/*</div>*/}
+                    </div>
+
                     <div className={"submit-container"}>
                         <button type="submit" disabled={!team1 || !team2}>Predict</button>
                     </div>
-
-                    <div className={"set-list-btn-container"}>
-                        <CreateButtonGroup setDisplayRegion={setDisplayRegion1} />
-                        <CreateButtonGroup setDisplayRegion={setDisplayRegion2} />
-                    </div>
-
-                    <div className="dropdown">
-                            <div className="content">
-                                <Dropdown
-                                    buttonText={team1 || "Select Team 1"}
-                                    content={
-                                        <>
-                                            {displayRegion1.map(team => (
-                                                <DropdownItem
-                                                    key={team}
-                                                    onClick={() => setTeam1(team)}
-                                                    disabled={team === team2}
-                                                >
-                                                    {team}
-                                                </DropdownItem>
-                                            ))}
-                                        </>
-                                    }
-                                    open={open1}
-                                    setOpen={setOpen1}
-                                />
-                            </div>
-
-                            <div className="content">
-                                <Dropdown
-                                    buttonText={team2 || "Select Team 2"}
-                                    content={
-                                        <>
-                                            {displayRegion2.map(team => (
-                                                <DropdownItem
-                                                    key={team}
-                                                    onClick={() => setTeam2(team)}
-                                                    disabled={team === team1}
-                                                >
-                                                    {team}
-                                                </DropdownItem>
-                                            ))}
-                                        </>
-                                    }
-                                    open={open2}
-                                    setOpen={setOpen2}
-                                />
-                            </div>
-                    </div>
-
 
                 </form>
                 <div className="response-container">
