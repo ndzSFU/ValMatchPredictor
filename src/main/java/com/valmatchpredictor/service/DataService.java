@@ -255,7 +255,11 @@ public class DataService {
     }
 
     public List<Match> lookupMatches(String teamName) throws IOException {
-        return  matchRepo.findByteam1(teamName);
+        return matchRepo.findByteam1(teamName);
+    }
+
+    public List<Map> lookUpTeamMaps(String teamName) throws IOException {
+        return null;
     }
 
     public boolean updateAllMatches() {
@@ -276,7 +280,7 @@ public class DataService {
         return teamOpt.orElse(null);
     }
 
-    public String fetchTeamLogoURL(String teamName) throws IOException {
+    public String fetchTeamLogoURL(String teamName) {
         Optional<String> logoUrlOpt = teamRepo.findLogoURLByTeamName(teamName);
         return logoUrlOpt.orElse("no url");
     }

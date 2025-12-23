@@ -33,6 +33,16 @@ const CN_teams = [
 
 let all_teams = [...NA_teams, ...EMEA_teams, ...APAC_teams, ...CN_teams];
 
+const MapPool = [
+    "Ascent",
+    "Haven",
+    "Bind",
+    "Lotus",
+    "Abyss",
+    "Corrode",
+    "Sunset"
+];
+
 export const ALL_TEAMS = all_teams;
 
 const CreateButtonGroup = ({setDisplayRegion}) => {

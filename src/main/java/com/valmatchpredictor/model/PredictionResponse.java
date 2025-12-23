@@ -1,6 +1,7 @@
 package com.valmatchpredictor.model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class PredictionResponse {
     private String winner;
@@ -13,12 +14,21 @@ public class PredictionResponse {
     private String t2Ban;
     private String t1LogoURL;
     private String t2LogoURL;
+    private PickBanResults pickBanResults;
 
     public PredictionResponse() {}
 
     public PredictionResponse(String winner, int probability) {
         this.winner = winner;
         this.probability = probability;
+    }
+
+    public PickBanResults getPickBanResults() {
+        return pickBanResults;
+    }
+
+    public void setPickBanResults(PickBanResults pickBanResults) {
+        this.pickBanResults = pickBanResults;
     }
 
     public String getLoser() {

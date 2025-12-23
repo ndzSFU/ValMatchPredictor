@@ -77,6 +77,13 @@ public class PredictorController {
 
     private final double matchUpWeight = 1.6; // Weight for match win rate
 
+    private PickBanResults predictPickBans(TeamProfile t1, TeamProfile t2) {
+        PickBanResults pickBanResults = new PickBanResults();
+        pickBanResults.simulatePickBans(t1, t2, 3);
+
+        return pickBanResults;
+    }
+
     private PredictionResponse compareTeams(TeamProfile t1, TeamProfile t2){
         PredictionResponse prediction = new PredictionResponse();
 
@@ -127,6 +134,8 @@ public class PredictorController {
             prediction.setTotalScore(score1 + score2);
         }
 
+        prediction.setPickBanResults(predictPickBans(t1, t2));
+
         return prediction;
     }
 
@@ -138,8 +147,8 @@ public class PredictorController {
         try{
             Team1.setTeamName(request.getTeam1());
             Team2.setTeamName(request.getTeam2());
-            Team1.setMatches(dataService.lookupMatches(Team1.getTeamName()));
-            Team2.setMatches(dataService.lookupMatches(Team2.getTeamName()));
+            Team1.setMatchesAndUpdateMaps(dataService.lookupMatches(Team1.getTeamName()));
+            Team2.setMatchesAndUpdateMaps(dataService.lookupMatches(Team2.getTeamName()));
 
         }
         catch (IOException e) {
@@ -156,7 +165,7 @@ public class PredictorController {
         try{
             prediction.setT1LogoURL(dataService.fetchTeamLogoURL(Team1.getTeamName()));
             prediction.setT2LogoURL(dataService.fetchTeamLogoURL(Team2.getTeamName()));
-        }catch(IOException e){
+        }catch(Exception e){
             //Do nothing
             //Don't need the logo yet
         }
@@ -170,7 +179,7 @@ public class PredictorController {
         teamProfile.setTeamName("NRG");
         try {
             //Team t = dataService.updateMatches(teamProfile.getTeamName());
-            teamProfile.setMatches(dataService.lookupMatches(teamProfile.getTeamName()));
+            teamProfile.setMatchesAndUpdateMaps(dataService.lookupMatches(teamProfile.getTeamName()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -182,9 +191,10 @@ public class PredictorController {
     public TeamProfile getTeamProfile(@PathVariable String teamName) {
         TeamProfile teamProfile = new TeamProfile();
         teamProfile.setTeamName(teamName);
+        teamProfile.setTeamLogo(dataService.fetchTeamLogoURL(teamName));
         try {
             //Team t = dataService.updateMatches(teamProfile.getTeamName());
-            teamProfile.setMatches(dataService.lookupMatches(teamName));
+            teamProfile.setMatchesAndUpdateMaps(dataService.lookupMatches(teamName));
         } catch (IOException e) {
             e.printStackTrace();
         }

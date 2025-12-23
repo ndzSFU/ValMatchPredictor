@@ -1,6 +1,6 @@
 import { NavLink } from "react-router";
 import NavBar from "./components/NavBar/NavBar";
-import colouredLogo from "./images/coloured-logo.png";
+import colouredLogo from "./images/coloured-logo-cropped.png";
 import "./HomePage.css";
 
 function HomePage() {

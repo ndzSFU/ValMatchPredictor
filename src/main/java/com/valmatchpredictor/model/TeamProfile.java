@@ -11,7 +11,7 @@ public class TeamProfile {
     private List<Map> teamMaps;
 
     public String probableBan(){
-        Map LeastPlayedMap = teamMaps.get(0);
+        Map LeastPlayedMap = teamMaps.getFirst();
         for(Map map : teamMaps) {
             if(map.getRoundsPlayed() < LeastPlayedMap.getRoundsPlayed()) {
                 LeastPlayedMap = map;
@@ -57,7 +57,7 @@ public class TeamProfile {
         }
     }
 
-    public void setMatches(List<Match> matches) {
+    public void setMatchesAndUpdateMaps(List<Match> matches) {
         this.matches = matches;
 
         for(Match match : matches) {
