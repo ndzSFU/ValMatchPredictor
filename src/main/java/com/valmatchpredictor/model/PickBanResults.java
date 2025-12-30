@@ -12,7 +12,7 @@ public class PickBanResults {
         T2BAN,
         T1PICK,
         T2PICK,
-        LEFTOVER,
+        DECIDER,
     }
 
     public PickBanResults(){
@@ -65,9 +65,8 @@ public class PickBanResults {
     }
 
     private void simulateBO3(TeamProfile team1, TeamProfile team2){
-        team1.sortMapsByAmountPlayed();
-        team2.sortMapsByAmountPlayed();
-
+        team1.sortMapsByPickingWeight();
+        team2.sortMapsByPickingWeight();
 
         int t1MapBanIdx = 0;
         int t2MapBanIdx = 0;
@@ -102,7 +101,7 @@ public class PickBanResults {
         mapResults.put(t2Maps.get(t2MapBanIdx).getName(), Result.T2BAN);
 
         String deciderMap = team1.getTeamMaps().get(findDecider(team1)).getName();
-        mapResults.put(deciderMap, Result.LEFTOVER);
+        mapResults.put(deciderMap, Result.DECIDER);
     }
 
     public void simulatePickBans(TeamProfile team1, TeamProfile team2, int bestOf){

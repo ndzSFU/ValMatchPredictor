@@ -20,7 +20,7 @@ public class TeamProfile {
         return LeastPlayedMap.getName();
     }
 
-    public void sortMapsByAmountPlayed(){
+    public void sortMapsByPickingWeight(){
         Collections.sort(teamMaps);
     }
 
@@ -68,6 +68,7 @@ public class TeamProfile {
 
         for(Map map : teamMaps) {
             map.calculateWinRate();
+            map.calculatePickingWeight();
         }
     }
 

@@ -125,6 +125,7 @@ public class PredictorController {
             prediction.setMatchUpWinRate(t1MatchupWinRate);
             prediction.setScore(score1);
             prediction.setTotalScore(score1 + score2);
+            prediction.setT1IsWinner(true);
         } else {
             prediction.setWinner(t2.getTeamName());
             prediction.setLoser(t1.getTeamName());
@@ -132,6 +133,7 @@ public class PredictorController {
             prediction.setMatchUpWinRate(t2MatchupWinRate);
             prediction.setScore(score2);
             prediction.setTotalScore(score1 + score2);
+            prediction.setT1IsWinner(false);
         }
 
         prediction.setPickBanResults(predictPickBans(t1, t2));
@@ -198,6 +200,7 @@ public class PredictorController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        teamProfile.sortMapsByPickingWeight();
         return teamProfile;
     }
 

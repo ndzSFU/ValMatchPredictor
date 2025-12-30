@@ -15,12 +15,21 @@ public class PredictionResponse {
     private String t1LogoURL;
     private String t2LogoURL;
     private PickBanResults pickBanResults;
+    private boolean t1IsWinner;
 
     public PredictionResponse() {}
 
     public PredictionResponse(String winner, int probability) {
         this.winner = winner;
         this.probability = probability;
+    }
+
+    public boolean isT1IsWinner() {
+        return t1IsWinner;
+    }
+
+    public void setT1IsWinner(boolean t1IsWinner) {
+        this.t1IsWinner = t1IsWinner;
     }
 
     public PickBanResults getPickBanResults() {

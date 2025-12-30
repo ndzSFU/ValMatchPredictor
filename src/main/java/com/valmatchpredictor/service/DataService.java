@@ -255,7 +255,7 @@ public class DataService {
     }
 
     public List<Match> lookupMatches(String teamName) throws IOException {
-        return matchRepo.findByteam1(teamName);
+        return matchRepo.findMatches(teamName);
     }
 
     public List<Map> lookUpTeamMaps(String teamName) throws IOException {

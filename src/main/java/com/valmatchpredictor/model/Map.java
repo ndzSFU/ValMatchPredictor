@@ -10,9 +10,19 @@ public class Map  implements Comparable<Map> {
     private int mathcesPlayed;
     private int matchWinRate;
 
+    private int pickingWeight;
+
+    public void calculatePickingWeight(){
+        this.pickingWeight = (roundWinRate) * (matchWinRate) * (amountPlayed);
+    }
+
+    public int getPickingWeight() {
+        return pickingWeight;
+    }
+
     @Override
     public int compareTo(Map other){
-        return Integer.compare(other.getAmountPlayed(), this.getAmountPlayed());
+        return Integer.compare(other.getPickingWeight(), this.getPickingWeight());
     }
 
     public int getMathcesWon() {

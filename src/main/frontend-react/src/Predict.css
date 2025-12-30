@@ -110,3 +110,23 @@ form {
   max-height: 50px;
   object-fit: contain;
 }
+
+.winner{
+    text-align: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.winner-logo {
+  max-width: 150px;           /* optional: resize image */
+  height: auto;
+}
+
+.winner-text {
+  color: green;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 3rem;
+  margin-top: 0;           /* space between image and text */
+}

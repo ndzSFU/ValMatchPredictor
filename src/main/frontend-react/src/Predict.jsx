@@ -5,6 +5,7 @@ import './Predict.css';
 import SetTeamListButton from "./components/SetTeamButton/SetTeamListButton";
 import Select from 'react-select'
 import NavBar from "./components/NavBar/NavBar";
+import PickBanMap from "./components/PickBanMap/PickBanMap";
 
 
 const NA_teams = [
@@ -70,8 +71,6 @@ function Predict() {
     const [team1, setTeam1] = useState(null);
     const [team2, setTeam2] = useState(null);
     const [response, setResponse] = useState('');
-    const [displayRegion1, setDisplayRegion1] = useState(NA_teams);
-    const [displayRegion2, setDisplayRegion2] = useState(NA_teams);
 
     const allTeamOptions = all_teams.map(team => ({
         value: team,
@@ -102,25 +101,18 @@ function Predict() {
     const [open1, setOpen1] = React.useState(false);
     const [open2, setOpen2] = React.useState(false);
 
-    const logos_url_names= ["t1LogoURL", "t2LogoURL"];
 
     return (
             <div>
                 <NavBar></NavBar>
                 <form onSubmit={handleSubmit}>
-
-
-                    {/*<div className={"set-list-btn-container"}>*/}
-                    {/*    <CreateButtonGroup setDisplayRegion={setDisplayRegion1} />*/}
-                    {/*    <CreateButtonGroup setDisplayRegion={setDisplayRegion2} />*/}
-                    {/*</div>*/}
-
                     <div className="dropdown">
                         <Select
                             options={team1_list}
                             value={team1}
                             onChange={setTeam1}
                             placeholder="Select Team 1"
+
                         />
                         <Select
                             options={team2_list}
@@ -128,47 +120,7 @@ function Predict() {
                             onChange={setTeam2}
                             placeholder="Select Team 2"
                         />
-                            {/*<div className="content">*/}
-                            {/*    <Dropdown*/}
-                            {/*        buttonText={team1 || "Select Team 1"}*/}
-                            {/*        content={*/}
-                            {/*            <>*/}
-                            {/*                {displayRegion1.map(team => (*/}
-                            {/*                    <DropdownItem*/}
-                            {/*                        key={team}*/}
-                            {/*                        onClick={() => setTeam1(team)}*/}
-                            {/*                        disabled={team === team2}*/}
-                            {/*                    >*/}
-                            {/*                        {team}*/}
-                            {/*                    </DropdownItem>*/}
-                            {/*                ))}*/}
-                            {/*            </>*/}
-                            {/*        }*/}
-                            {/*        open={open1}*/}
-                            {/*        setOpen={setOpen1}*/}
-                            {/*    />*/}
-                            {/*</div>*/}
 
-                            {/*<div className="content">*/}
-                            {/*    <Dropdown*/}
-                            {/*        buttonText={team2 || "Select Team 2"}*/}
-                            {/*        content={*/}
-                            {/*            <>*/}
-                            {/*                {displayRegion2.map(team => (*/}
-                            {/*                    <DropdownItem*/}
-                            {/*                        key={team}*/}
-                            {/*                        onClick={() => setTeam2(team)}*/}
-                            {/*                        disabled={team === team1}*/}
-                            {/*                    >*/}
-                            {/*                        {team}*/}
-                            {/*                    </DropdownItem>*/}
-                            {/*                ))}*/}
-                            {/*            </>*/}
-                            {/*        }*/}
-                            {/*        open={open2}*/}
-                            {/*        setOpen={setOpen2}*/}
-                            {/*    />*/}
-                            {/*</div>*/}
                     </div>
 
                     <div className={"submit-container"}>
@@ -176,31 +128,55 @@ function Predict() {
                     </div>
 
                 </form>
-                <div className="response-container">
+                <div>
                     {response && (() => {
                         try {
                             const data = JSON.parse(response);
+                            let winnerImgUrl;
+                            if(data.t1IsWinner){
+                                winnerImgUrl = data.t1LogoURL;
+                            }else{
+                                winnerImgUrl = data.t2LogoURL;
+                            }
+
+
                             return (
                                 <div>
-                                    {Object.entries(data).map(([key, value]) => {
-                                        const isImage = logos_url_names.includes(key);
-
-                                        return (
-                                            <div key={key} className="response-row">
-                                                <span className="response-key">{key}:</span>
-
-                                                {isImage ? (
-                                                    <img
-                                                        src={value}
-                                                        alt={key}
-                                                        className="response-image"
-                                                    />
-                                                ) : (
-                                                    <span className="response-value">{String(value)}</span>
-                                                )}
+                                    <div className="response-container">
+                                        <div className="winner">
+                                            <img src={winnerImgUrl} className="winner-logo" />
+                                            <div className="winner-text">
+                                                Winner
                                             </div>
-                                        );
-                                    })}
+                                            <div className="winner-desc">
+                                                {data.winner} has a {data.probability}% chance of taking this series!
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="response-container">
+                                        {
+                                            Object.entries(data.pickBanResults).map(([mapName, mapType]) => {
+                                                if(data.t1IsWinner){
+                                                    return(
+                                                        <PickBanMap
+                                                            mapName={mapName}
+                                                            teamName={data.winner}
+                                                            type={mapType}
+                                                        ></PickBanMap>
+                                                    )
+                                                }else{
+                                                    return(
+                                                        <PickBanMap
+                                                            mapName={mapName}
+                                                            teamName={data.loser}
+                                                            type={mapType}
+                                                        ></PickBanMap>
+                                                    )
+                                                }
+                                            })
+                                        }
+                                    </div>
                                 </div>
                             );
                         } catch {
@@ -211,5 +187,4 @@ function Predict() {
             </div>
     );
 }
-
 export default Predict;
