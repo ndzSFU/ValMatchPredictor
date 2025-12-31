@@ -1,0 +1,35 @@
+.map-image-container {
+    position: relative;
+    width: 200px;
+    height: auto;
+    display: inline-block;
+}
+
+.map-image-container img {
+    width: 100%;
+    display: block;
+}
+
+.banned-map-image-container img {
+    filter: grayscale(100%) brightness(0.6);
+}
+
+.banned-map-image-container::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.35);
+}
+
+.banned-map-image-container::before {
+    content: "✕";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 6rem;
+    font-weight: 700;
+    color: red;
+    z-index: 2;
+    pointer-events: none;
+}

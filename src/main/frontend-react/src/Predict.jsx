@@ -133,10 +133,16 @@ function Predict() {
                         try {
                             const data = JSON.parse(response);
                             let winnerImgUrl;
+                            let t1;
+                            let t2;
                             if(data.t1IsWinner){
                                 winnerImgUrl = data.t1LogoURL;
+                                t1 = data.winner;
+                                t2 = data.loser;
                             }else{
                                 winnerImgUrl = data.t2LogoURL;
+                                t1 = data.loser;
+                                t2 = data.winner;
                             }
 
 
@@ -156,26 +162,50 @@ function Predict() {
 
                                     <div className="response-container">
                                         {
-                                            Object.entries(data.pickBanResults).map(([mapName, mapType]) => {
-                                                if(data.t1IsWinner){
+                                            MapPool.map((map) => {
+                                                const mapType = data.pickBanResults.mapResults[map];
+                                                if(mapType === "T1BAN" || mapType === "T1PICK"){
                                                     return(
                                                         <PickBanMap
-                                                            mapName={mapName}
-                                                            teamName={data.winner}
+                                                            mapName={map}
+                                                            teamName={t1}
                                                             type={mapType}
                                                         ></PickBanMap>
                                                     )
                                                 }else{
                                                     return(
                                                         <PickBanMap
-                                                            mapName={mapName}
-                                                            teamName={data.loser}
+                                                            mapName={map}
+                                                            teamName={t2}
                                                             type={mapType}
                                                         ></PickBanMap>
                                                     )
                                                 }
                                             })
                                         }
+                                        {/*{*/}
+                                        {/*    Object.entries(data.pickBanResults).map(([mapName, mapType]) => {*/}
+                                        {/*        if(data.t1IsWinner){*/}
+                                        {/*            return(*/}
+                                        {/*                <PickBanMap*/}
+                                        {/*                    key={mapName}*/}
+                                        {/*                    mapName={mapName}*/}
+                                        {/*                    teamName={data.winner}*/}
+                                        {/*                    type={mapType}*/}
+                                        {/*                ></PickBanMap>*/}
+                                        {/*            )*/}
+                                        {/*        }else{*/}
+                                        {/*            return(*/}
+                                        {/*                <PickBanMap*/}
+                                        {/*                    key={mapName}*/}
+                                        {/*                    mapName={mapName}*/}
+                                        {/*                    teamName={data.loser}*/}
+                                        {/*                    type={mapType}*/}
+                                        {/*                ></PickBanMap>*/}
+                                        {/*            )*/}
+                                        {/*        }*/}
+                                        {/*    })*/}
+                                        {/*}*/}
                                     </div>
                                 </div>
                             );
