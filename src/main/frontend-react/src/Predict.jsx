@@ -101,6 +101,13 @@ function Predict() {
     const [open1, setOpen1] = React.useState(false);
     const [open2, setOpen2] = React.useState(false);
 
+    const fixedSelectStyles = {
+        control: (provided) => ({
+            ...provided,
+            width: 200,
+            minWidth: 200,
+        }),
+    };
 
     return (
             <div>
@@ -112,13 +119,14 @@ function Predict() {
                             value={team1}
                             onChange={setTeam1}
                             placeholder="Select Team 1"
-
+                            styles={fixedSelectStyles}
                         />
                         <Select
                             options={team2_list}
                             value={team2}
                             onChange={setTeam2}
                             placeholder="Select Team 2"
+                            styles={fixedSelectStyles}
                         />
 
                     </div>
