@@ -6,7 +6,8 @@
 }
 
 .map-image-container img {
-    width: 100%;
+    width: 200px;
+    height: 300px;
     display: block;
 }
 
@@ -14,12 +15,6 @@
     filter: grayscale(100%) brightness(0.6);
 }
 
-.banned-map-image-container::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.35);
-}
 
 .banned-map-image-container::before {
     content: "✕";
@@ -32,4 +27,25 @@
     color: red;
     z-index: 2;
     pointer-events: none;
+}
+
+.pick-ban-map-container{
+    display: flex;
+    flex-direction: column;
+    padding: 4px;
+}
+
+
+.map-name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.map-subtext {
+    font-size: 0.75rem;
+    font-weight: 600;
+    opacity: 0.85;
+    margin-top: 0px;
 }

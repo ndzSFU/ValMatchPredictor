@@ -3,6 +3,7 @@ package com.valmatchpredictor.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.ArrayList;
 
 
 public class PickBanResults {
@@ -17,7 +18,10 @@ public class PickBanResults {
 
     public PickBanResults(){
         mapResults = new HashMap<>();
+        mapOrdering = new ArrayList<>();
     }
+
+    private ArrayList<String> mapOrdering;
 
     public HashMap<String, Result> mapResults;
 
@@ -25,11 +29,16 @@ public class PickBanResults {
         return mapResults;
     }
 
+    public ArrayList<String> getMapOrdering() {
+        return mapOrdering;
+    }
+
     private int findNextBan(TeamProfile team, int currentBanIdx){
         while(currentBanIdx < 7) {
             Map mapToBan = team.getTeamMaps().get(currentBanIdx);
 
             if(!mapResults.containsKey(mapToBan.getName())){
+                mapOrdering.add(mapToBan.getName());
                 return currentBanIdx;
             }
             currentBanIdx++;
@@ -41,9 +50,10 @@ public class PickBanResults {
 
     private int findNextPick(TeamProfile team, int currentPickIdx){
         while(currentPickIdx >= 0) {
-            Map MapPick = team.getTeamMaps().get(currentPickIdx);
+            Map mapPick = team.getTeamMaps().get(currentPickIdx);
 
-            if(!mapResults.containsKey(MapPick.getName())){
+            if(!mapResults.containsKey(mapPick.getName())){
+                mapOrdering.add(mapPick.getName());
                 return currentPickIdx;
             }
             currentPickIdx--;
@@ -57,6 +67,7 @@ public class PickBanResults {
             Map mapPick = team.getTeamMaps().get(i);
 
             if(!mapResults.containsKey(mapPick.getName())){
+                mapOrdering.add(mapPick.getName());
                 return i;
             }
         }

@@ -130,3 +130,33 @@ form {
   font-size: 3rem;
   margin-top: 0;           /* space between image and text */
 }
+
+.pick-ban-container {
+  max-width: 1500px;
+  margin: 10px auto;
+  padding: 10px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.pick-ban-title-container {
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #222;
+  letter-spacing: 1px;
+  font-family: 'Oswald', sans-serif;
+  text-decoration: underline;
+}
+
+.maps-container{
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+}

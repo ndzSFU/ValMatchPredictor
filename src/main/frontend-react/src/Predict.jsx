@@ -160,53 +160,39 @@ function Predict() {
                                         </div>
                                     </div>
 
-                                    <div className="response-container">
-                                        {
-                                            MapPool.map((map) => {
-                                                const mapType = data.pickBanResults.mapResults[map];
-                                                if(mapType === "T1BAN" || mapType === "T1PICK"){
-                                                    return(
-                                                        <PickBanMap
-                                                            mapName={map}
-                                                            teamName={t1}
-                                                            type={mapType}
-                                                        ></PickBanMap>
-                                                    )
-                                                }else{
-                                                    return(
-                                                        <PickBanMap
-                                                            mapName={map}
-                                                            teamName={t2}
-                                                            type={mapType}
-                                                        ></PickBanMap>
-                                                    )
-                                                }
-                                            })
-                                        }
-                                        {/*{*/}
-                                        {/*    Object.entries(data.pickBanResults).map(([mapName, mapType]) => {*/}
-                                        {/*        if(data.t1IsWinner){*/}
-                                        {/*            return(*/}
-                                        {/*                <PickBanMap*/}
-                                        {/*                    key={mapName}*/}
-                                        {/*                    mapName={mapName}*/}
-                                        {/*                    teamName={data.winner}*/}
-                                        {/*                    type={mapType}*/}
-                                        {/*                ></PickBanMap>*/}
-                                        {/*            )*/}
-                                        {/*        }else{*/}
-                                        {/*            return(*/}
-                                        {/*                <PickBanMap*/}
-                                        {/*                    key={mapName}*/}
-                                        {/*                    mapName={mapName}*/}
-                                        {/*                    teamName={data.loser}*/}
-                                        {/*                    type={mapType}*/}
-                                        {/*                ></PickBanMap>*/}
-                                        {/*            )*/}
-                                        {/*        }*/}
-                                        {/*    })*/}
-                                        {/*}*/}
-                                    </div>
+
+                                        <div className="pick-ban-container">
+                                            <h2 className="pick-ban-title-container">
+                                                Predicted Map Pick/Ban for this series
+                                            </h2>
+                                            <div className="maps-container">
+                                            {
+                                                data.pickBanResults.mapOrdering.map((map) => {
+                                                    const mapType = data.pickBanResults.mapResults[map];
+                                                    if(mapType === "T1BAN" || mapType === "T1PICK"){
+                                                        return(
+                                                            <PickBanMap
+                                                                mapName={map}
+                                                                teamName={t1}
+                                                                type={mapType}
+                                                            ></PickBanMap>
+                                                        )
+                                                    }else{
+                                                        return(
+                                                            <PickBanMap
+                                                                mapName={map}
+                                                                teamName={t2}
+                                                                type={mapType}
+                                                            ></PickBanMap>
+                                                        )
+                                                    }
+                                                })
+                                            }
+                                            </div>
+                                        </div>
+
+
+
                                 </div>
                             );
                         } catch {
