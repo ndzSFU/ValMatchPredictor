@@ -31,6 +31,9 @@ export default function NavBar() {
                     <NavLink to="/team" className="nav-link">
                         Team Profiles
                     </NavLink>
+                    <NavLink to="/about" className="nav-link">
+                        About
+                    </NavLink>
                 </Nav>
             </Container>
         </Navbar>

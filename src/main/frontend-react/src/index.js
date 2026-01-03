@@ -6,6 +6,7 @@ import reportWebVitals from './reportWebVitals';
 import {createBrowserRouter, RouterProvider, Link} from "react-router-dom";
 import TeamProfiles from "./TeamProfiles";
 import HomePage from "./HomePage";
+import About from "./About";
 
 
 function ErrorPage(){
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
     {
         path: '/team',
         element: <TeamProfiles/>
+    },
+    {
+        path: '/about',
+        element: <About/>
     }
 ])
 
