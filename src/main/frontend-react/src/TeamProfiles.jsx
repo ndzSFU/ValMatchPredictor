@@ -3,7 +3,8 @@ import { ALL_TEAMS } from "./Predict";
 import Select from 'react-select'
 import {useState} from "react";
 import NavBar from "./components/NavBar/NavBar";
-
+import { BarChartRangeExample, MapGraph } from "./components/MapGraph/MapGraph.jsx";
+import "./TeamProfiles.css";
 
 const TeamDropDownOptions = ALL_TEAMS.map(team => ({ value: team, label: team }));
 
@@ -31,6 +32,28 @@ function TeamProfiles(){
         setChosenProfile(profileData);
     }
 
+    const formattedMapWinRate = chosenProfile ? chosenProfile.teamMaps.map(map => (
+        {name: map.name, WinRate: [0, map.roundWinRate] }))
+        : [];
+
+    const formattedMapPlayedQuantity = chosenProfile ? chosenProfile.teamMaps.map(map => (
+        {name: map.name, AmountPlayed: [0, map.matchesPlayed]}
+        )
+    ) : [];
+
+    const winRateFormatter = (value) => {
+        if (Array.isArray(value)) {
+            return [`${value[1]}%`, 'Win Rate'];
+        }
+        return value;
+    }
+
+    const amountPlayedFormatter = (value) => {
+        if (Array.isArray(value)) {
+            return [`${value[1]}`, 'Amount Played'];
+        }
+        return value;
+    }
 
     return(
         <div>
@@ -41,18 +64,25 @@ function TeamProfiles(){
                     value={selectedTeam}
                     onChange={setSelectedTeam}
                 />
-                <button type="submit">Fetch Profile</button>
+                <div className={"submit-container"}>
+                    <button type="submit">Fetch Profile</button>
+                </div>
+
             </form>
+                {
+                    chosenProfile && (
+                        <div className="response-container">
+                            <div className="team-profile">
+                                <h2 className="map-graph-title">{chosenProfile.teamName}'s Win % Across Current Map Pool</h2>
+                                <MapGraph MapData={formattedMapWinRate} xAxisLabel={"name"} yAxisLabel={"WinRate"} formatter={winRateFormatter}></MapGraph>
 
-            <div className="response-container">
-                {chosenProfile && (
-                    <div className="team-profile">
-                        <h2>Name: {chosenProfile.teamName}</h2>
-                        <p><strong>Maps:</strong> {JSON.stringify(chosenProfile.teamMaps)}</p>
+                                <h2 className="map-graph-title">{chosenProfile.teamName}'s Matches Played Per Map</h2>
+                                <MapGraph MapData={formattedMapPlayedQuantity} xAxisLabel={"name"} yAxisLabel={"AmountPlayed"} formatter={amountPlayedFormatter}></MapGraph>
+                            </div>
 
-                    </div>
+                        </div>
                 )}
-            </div>
+
 
         </div>
     );

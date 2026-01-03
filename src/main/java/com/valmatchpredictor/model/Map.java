@@ -6,8 +6,8 @@ public class Map  implements Comparable<Map> {
     private int roundWinRate;
     private int roundsWon;
     private int roundsPlayed;
-    private int mathcesWon;
-    private int mathcesPlayed;
+    private int matchesWon;
+    private int matchesPlayed;
     private int matchWinRate;
 
     private int pickingWeight;
@@ -25,20 +25,20 @@ public class Map  implements Comparable<Map> {
         return Integer.compare(other.getPickingWeight(), this.getPickingWeight());
     }
 
-    public int getMathcesWon() {
-        return mathcesWon;
+    public int getMatchesWon() {
+        return matchesWon;
     }
 
     public void addWonMatch() {
-        this.mathcesWon++;
+        this.matchesWon++;
     }
 
-    public int getMathcesPlayed() {
-        return mathcesPlayed;
+    public int getMatchesPlayed() {
+        return matchesPlayed;
     }
 
     public void addMatch() {
-        this.mathcesPlayed++;
+        this.matchesPlayed++;
     }
 
     public int getMatchWinRate() {
@@ -74,10 +74,10 @@ public class Map  implements Comparable<Map> {
             this.roundWinRate = (int) (((double) roundsWon / (double) roundsPlayed) * 100.0);
         }
 
-        if (mathcesPlayed == 0) {
+        if (matchesPlayed == 0) {
             this.matchWinRate = 0;
         } else {
-            this.matchWinRate = (int) ((double) mathcesWon / mathcesPlayed * 100);
+            this.matchWinRate = (int) ((double) matchesWon / matchesPlayed * 100);
         }
     }
 

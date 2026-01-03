@@ -110,9 +110,9 @@ function Predict() {
     };
 
     return (
-            <div>
+            <div className="predict-page">
                 <NavBar></NavBar>
-                <form onSubmit={handleSubmit}>
+                <form className="form-container" onSubmit={handleSubmit}>
                     <div className="dropdown">
                         <Select
                             options={team1_list}
@@ -170,9 +170,9 @@ function Predict() {
 
 
                                         <div className="pick-ban-container">
-                                            <h2 className="pick-ban-title-container">
+                                            <h4 className="pick-ban-title-container">
                                                 Predicted Map Pick/Ban for this series
-                                            </h2>
+                                            </h4>
                                             <div className="maps-container">
                                             {
                                                 data.pickBanResults.mapOrdering.map((map) => {

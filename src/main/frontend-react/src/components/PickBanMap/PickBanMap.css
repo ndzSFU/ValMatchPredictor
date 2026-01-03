@@ -32,7 +32,7 @@
 .pick-ban-map-container{
     display: flex;
     flex-direction: column;
-    padding: 4px;
+    padding: 8px;
 }
 
 
@@ -47,5 +47,4 @@
     font-size: 0.75rem;
     font-weight: 600;
     opacity: 0.85;
-    margin-top: 0px;
 }
