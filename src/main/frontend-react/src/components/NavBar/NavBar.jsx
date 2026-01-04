@@ -4,8 +4,6 @@ import Navbar from 'react-bootstrap/Navbar';
 // import NavDropdown from 'react-bootstrap/NavDropdown';
 import {NavLink} from "react-router";
 import './NavBar.css';
-import logo from "./transparent-logo.png";
-import noTextLogo from "./logo-no-text.png";
 
 
 export default function NavBar() {
@@ -15,7 +13,7 @@ export default function NavBar() {
                 <Navbar.Brand href="/" className="d-flex align-items-center">
                     <div className="logo-wrapper">
                         <img
-                            src={noTextLogo}
+                            src={"./logo-no-text.png"}
                             alt="Valorant Logo"
                             className="navbar-logo"
                         />
