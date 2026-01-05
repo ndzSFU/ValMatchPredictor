@@ -1,17 +1,16 @@
 package com.valmatchpredictor.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class PredictionResponse {
     private String winner;
     private String loser;
     private int probability;
-    private double matchUpWinRate;
+    private int previousMatchUps;
+    private double winnerWinRateAgainstLoser;
     private String t1LogoURL;
     private String t2LogoURL;
     private PickBanResults pickBanResults;
     private boolean t1IsWinner;
+
 
     public PredictionResponse() {}
 
@@ -26,6 +25,14 @@ public class PredictionResponse {
 
     public void setT1IsWinner(boolean t1IsWinner) {
         this.t1IsWinner = t1IsWinner;
+    }
+
+    public int getPreviousMatchUps() {
+        return previousMatchUps;
+    }
+
+    public void setPreviousMatchUps(int previousMatchUps) {
+        this.previousMatchUps = previousMatchUps;
     }
 
     public PickBanResults getPickBanResults() {
@@ -60,8 +67,8 @@ public class PredictionResponse {
         this.t2LogoURL = t2LogoURL;
     }
 
-    public void setMatchUpWinRate(double matchWinUpRate) {
-        this.matchUpWinRate = matchWinUpRate;
+    public void setWinnerWinRateAgainstLoser(double matchWinUpRate) {
+        this.winnerWinRateAgainstLoser = matchWinUpRate;
     }
 
     public String getWinner() {
@@ -76,8 +83,8 @@ public class PredictionResponse {
         return probability;
     }
 
-    public double getMatchUpWinRate() {
-        return matchUpWinRate;
+    public double getWinnerWinRateAgainstLoser() {
+        return winnerWinRateAgainstLoser;
     }
 
     public void setProbability(int probability) {

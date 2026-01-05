@@ -24,6 +24,7 @@ function About() {
                     </div>
 
                     <p className="description">
+                        Fetch all available data for the specified team.
                         See footer for valid spelling of each team name.
                     </p>
                 </section>
@@ -64,10 +65,9 @@ function About() {
         "roundWinRate" : 55,
         "roundsWon" : 410,
         "roundsPlayed" : 737,
-        "mathcesWon" : 23,
-        "mathcesPlayed" : 36,
-        "matchWinRate" : 63,
-        "pickingWeight" : 124740
+        "matchesWon" : 23,
+        "matchesPlayed" : 36,
+        "matchWinRate" : 6
       }, 
        ... // Other maps in the current competitive rotation
        ]
@@ -76,20 +76,16 @@ function About() {
         </pre>
                 </section>
 
-                <p className="description">
-                    This API provides structured access to Tier Pro Valorant team data, mainly centered around
-                    match/map data for each team.
-                </p>
-
                 <section className="docs-section">
-                    <h2>All Team Data Request</h2>
+                    <h2>Map Data Request</h2>
 
                     <div className="request-box">
                         <div className="method">GET</div>
-                        <code>{"http://localhost:8081/teamProfile/{teamName}"}</code>
+                        <code>{"http://localhost:8081/maps/{teamName}"}</code>
                     </div>
 
                     <p className="description">
+                        Fetch the 50 most recently played matches for the specified team.
                         See footer for valid spelling of each team name.
                     </p>
                 </section>
@@ -97,47 +93,148 @@ function About() {
                 <section className="docs-section">
                     <h2>Response</h2>
                     <p className="description">
-                        http://localhost:8081/teamProfile/NRG
+                        http://localhost:8081/maps/Cloud9
                     </p>
 
                     <pre className="code-block">
-          <code>{`{
-  "teamName" : "NRG",
-  "teamLogo" : "https://owcdn.net/img/6610f026c1a9e.png",
-  "matches" : [ {
+          <code>{`[ {
+  "name" : "Lotus",
+  "amountPlayed" : 40,
+  "roundWinRate" : 51,
+  "roundsWon" : 441,
+  "roundsPlayed" : 864,
+  "matchesWon" : 22,
+  "matchesPlayed" : 40,
+  "matchWinRate" : 55
+}, {
+  "name" : "Sunset",
+  "amountPlayed" : 13,
+  "roundWinRate" : 60,
+  "roundsWon" : 162,
+  "roundsPlayed" : 267,
+  "matchesWon" : 12,
+  "matchesPlayed" : 13,
+  "matchWinRate" : 92
+}, {
+  "name" : "Bind",
+  "amountPlayed" : 19,
+  "roundWinRate" : 53,
+  "roundsWon" : 217,
+  "roundsPlayed" : 403,
+  "matchesWon" : 10,
+  "matchesPlayed" : 19,
+  "matchWinRate" : 52
+}, {
+  "name" : "Haven",
+  "amountPlayed" : 32,
+  "roundWinRate" : 46,
+  "roundsWon" : 315,
+  "roundsPlayed" : 676,
+  "matchesWon" : 11,
+  "matchesPlayed" : 32,
+  "matchWinRate" : 34
+}, {
+  "name" : "Abyss",
+  "amountPlayed" : 14,
+  "roundWinRate" : 49,
+  "roundsWon" : 154,
+  "roundsPlayed" : 314,
+  "matchesWon" : 5,
+  "matchesPlayed" : 14,
+  "matchWinRate" : 35
+}, {
+  "name" : "Ascent",
+  "amountPlayed" : 18,
+  "roundWinRate" : 43,
+  "roundsWon" : 157,
+  "roundsPlayed" : 357,
+  "matchesWon" : 4,
+  "matchesPlayed" : 18,
+  "matchWinRate" : 22
+}, {
+  "name" : "Corrode",
+  "amountPlayed" : 6,
+  "roundWinRate" : 40,
+  "roundsWon" : 50,
+  "roundsPlayed" : 122,
+  "matchesWon" : 2,
+  "matchesPlayed" : 6,
+  "matchWinRate" : 33
+} ]`}
+          </code>
+        </pre>
+                </section>
+
+
+                <h2>Match Data Request</h2>
+
+                <div className="request-box">
+                    <div className="method">GET</div>
+                    <code>{"http://localhost:8081/matches/{teamName}"}</code>
+                </div>
+
+                <p className="description">
+                    Fetch the 50 most recently played matches for the specified team.
+                    See footer for valid spelling of each team name.
+                </p>
+
+                <section className="docs-section">
+                    <h2>Response</h2>
+                    <p className="description">
+                        http://localhost:8081/matches/FNATIC
+                    </p>
+
+                    <pre className="code-block">
+          <code>{`[ {
+  "team1" : "Sentinels",
+  "team2" : "FNATIC",
+  "score1" : "1",
+  "score2" : "2",
+  "tournament_name" : "Masters Toronto 2025",
+  "matchDate" : null,
+  "maps" : [ {
+    "mapName" : "Sunset",
     "team1" : "Sentinels",
-    "team2" : "NRG",
-    "score1" : "0",
-    "score2" : "1",
-    "tournament_name" : "RBHG 2025",
-    "matchDate" : null,
-    "maps" : [ {
-      "mapName" : "Pearl",
-      "team1" : "NRG",
-      "team2" : "Sentinels",
-      "score1" : "13",
-      "score2" : "11",
-      "winner" : "NRG"
-    } ],
-    "match_page" : "https://www.vlr.gg/585450/nrg-vs-sentinels-red-bull-home-ground-2025-ubsf"
-    },
-    ... // The next 50 most recently played matches
-   ],
-    
-    "teamMaps" : [ {
-        "name" : "Haven",
-        "amountPlayed" : 36,
-        "roundWinRate" : 55,
-        "roundsWon" : 410,
-        "roundsPlayed" : 737,
-        "mathcesWon" : 23,
-        "mathcesPlayed" : 36,
-        "matchWinRate" : 63,
-        "pickingWeight" : 124740
-      }, 
-       ... // Other maps in the current competitive rotation
-       ]
-    }`}
+    "team2" : "FNATIC",
+    "score1" : "13",
+    "score2" : "9",
+    "winner" : "Sentinels"
+  }, {
+    "mapName" : "Ascent",
+    "team1" : "Sentinels",
+    "team2" : "FNATIC",
+    "score1" : "7",
+    "score2" : "13",
+    "winner" : "FNATIC"
+  }, {
+    "mapName" : "Icebox",
+    "team1" : "Sentinels",
+    "team2" : "FNATIC",
+    "score1" : "9",
+    "score2" : "13",
+    "winner" : "FNATIC"
+  } ],
+  "match_page" : "https://www.vlr.gg/498632/sentinels-vs-fnatic-valorant-masters-toronto-2025-lr2"
+}, {
+  "team1" : "100 Thieves",
+  "team2" : "FNATIC",
+  "score1" : "0",
+  "score2" : "1",
+  "tournament_name" : "EWC 2025",
+  "matchDate" : null,
+  "maps" : [ {
+    "mapName" : "Icebox",
+    "team1" : "100 Thieves",
+    "team2" : "FNATIC",
+    "score1" : "11",
+    "score2" : "13",
+    "winner" : "FNATIC"
+  } ],
+  "match_page" : "https://www.vlr.gg/510143/100-thieves-vs-fnatic-esports-world-cup-2025-opening-d"
+},
+...// and so on
+]
+`}
           </code>
         </pre>
                 </section>

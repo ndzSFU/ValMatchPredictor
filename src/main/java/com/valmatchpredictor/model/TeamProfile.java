@@ -57,7 +57,7 @@ public class TeamProfile {
         }
     }
 
-    public void setMatchesAndUpdateMaps(List<Match> matches) {
+    public void setMatchesAndUpdateMapsAndPick(List<Match> matches) {
         this.matches = matches;
 
         for(Match match : matches) {

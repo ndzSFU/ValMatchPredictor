@@ -1,5 +1,7 @@
 package com.valmatchpredictor.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Map  implements Comparable<Map> {
     private String name;
     private int amountPlayed;
@@ -9,7 +11,7 @@ public class Map  implements Comparable<Map> {
     private int matchesWon;
     private int matchesPlayed;
     private int matchWinRate;
-
+    @JsonIgnore
     private int pickingWeight;
 
     public void calculatePickingWeight(){

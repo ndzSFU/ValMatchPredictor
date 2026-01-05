@@ -8,8 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,35 +15,10 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/")
 public class PredictorController {
-
-    private boolean isTier1(String teamName){
-        switch(teamName){
-            case "G2 Esports": return true;
-            case "Sentinels": return true;
-            case "NRG": return true;
-            case "100 Thieves": return true;
-            case "Evil Geniuses": return true;
-            case "Cloud9": return true;
-            case "LEVIATÁN": return true;
-            default: return false;
-        }
-    }
-
     @Autowired
     private DataService dataService;
 
-    @GetMapping("/teamMatches")
-    public List<Match> showTeamMatches(String teamName){
-        try{
-            return dataService.ScrapeTeamMatches("G2 Esports");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            return Collections.emptyList(); // or handle error properly
-        }
-    }
-
-    private int bannedMapModifier = 2;
+    int bannedMapModifier = 2;
 
     private int tallyWinRate(List<Map> teamMaps, String ban1, String ban2) {
         int addedScore = 0;
@@ -75,7 +48,7 @@ public class PredictorController {
         return false;
     }
 
-    private final double matchUpWeight = 1.6; // Weight for match win rate
+    final double matchUpWeight = 1.6; // Weight for match win rate
 
     private PickBanResults predictPickBans(TeamProfile t1, TeamProfile t2) {
         PickBanResults pickBanResults = new PickBanResults();
@@ -114,18 +87,20 @@ public class PredictorController {
         score1 += t1MatchupWinRate * matchUpWeight;
         score2 += t2MatchupWinRate * matchUpWeight;
 
+        prediction.setPreviousMatchUps(totalMatchups);
+
         int t1probability = (int) (((double) score1 / (score1 + score2)) * 100);
         if(score1 > score2) {
             prediction.setWinner(t1.getTeamName());
             prediction.setLoser(t2.getTeamName());
             prediction.setProbability(t1probability);
-            prediction.setMatchUpWinRate(t1MatchupWinRate);
+            prediction.setWinnerWinRateAgainstLoser(t1MatchupWinRate);
             prediction.setT1IsWinner(true);
         } else {
             prediction.setWinner(t2.getTeamName());
             prediction.setLoser(t1.getTeamName());
             prediction.setProbability(100 - t1probability);
-            prediction.setMatchUpWinRate(t2MatchupWinRate);
+            prediction.setWinnerWinRateAgainstLoser(t2MatchupWinRate);
             prediction.setT1IsWinner(false);
         }
 
@@ -142,15 +117,13 @@ public class PredictorController {
         try{
             Team1.setTeamName(request.getTeam1());
             Team2.setTeamName(request.getTeam2());
-            Team1.setMatchesAndUpdateMaps(dataService.lookupMatches(Team1.getTeamName()));
-            Team2.setMatchesAndUpdateMaps(dataService.lookupMatches(Team2.getTeamName()));
+            Team1.setMatchesAndUpdateMapsAndPick(dataService.lookupMatches(Team1.getTeamName()));
+            Team2.setMatchesAndUpdateMapsAndPick(dataService.lookupMatches(Team2.getTeamName()));
 
         }
-        catch (IOException e) {
+        catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(500).body("Failed to fetch team data");
-        } catch (Exception e) {
-            return ResponseEntity.status(400).body("Invalid request, could not parse team names");
         }
         if(Team1.getMatches() == null || Team2.getMatches() == null) {
             return ResponseEntity.status(404).body("One or both teams not found");
@@ -174,8 +147,8 @@ public class PredictorController {
         teamProfile.setTeamName("NRG");
         try {
             //Team t = dataService.updateMatches(teamProfile.getTeamName());
-            teamProfile.setMatchesAndUpdateMaps(dataService.lookupMatches(teamProfile.getTeamName()));
-        } catch (IOException e) {
+            teamProfile.setMatchesAndUpdateMapsAndPick(dataService.lookupMatches(teamProfile.getTeamName()));
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return ResponseEntity.ok(teamProfile);
@@ -189,12 +162,32 @@ public class PredictorController {
         teamProfile.setTeamLogo(dataService.fetchTeamLogoURL(teamName));
         try {
             //Team t = dataService.updateMatches(teamProfile.getTeamName());
-            teamProfile.setMatchesAndUpdateMaps(dataService.lookupMatches(teamName));
-        } catch (IOException e) {
+            teamProfile.setMatchesAndUpdateMapsAndPick(dataService.lookupMatches(teamName));
+        } catch (Exception e) {
             e.printStackTrace();
         }
         teamProfile.sortMapsByPickingWeight();
         return teamProfile;
+    }
+
+    @GetMapping("/matches/{teamName}")
+    public ResponseEntity<List<Match>> getMatches(@PathVariable String teamName) {
+        List<Match> matches = dataService.lookupMatches(teamName);
+
+        if (matches.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(matches);
+    }
+
+    @GetMapping("/maps/{teamName}")
+    public ResponseEntity<List<Map>> getTeamMaps(@PathVariable String teamName) {
+        TeamProfile teamProfile = getTeamProfile(teamName);
+        if (teamProfile.getTeamMaps().isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(teamProfile.getTeamMaps());
     }
 
     @PostMapping("/updateDB")

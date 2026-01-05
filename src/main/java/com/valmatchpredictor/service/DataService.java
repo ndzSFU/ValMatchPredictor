@@ -6,6 +6,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,6 +26,11 @@ public class DataService {
     private MatchRepo matchRepo;
 
 
+    public class DataAccessException extends RuntimeException {
+        public DataAccessException(String message, Throwable cause) {
+            super(message, cause);
+        }
+    }
 
     String[] allTeams = {
             // Americas
@@ -254,12 +260,12 @@ public class DataService {
         return true;
     }
 
-    public List<Match> lookupMatches(String teamName) throws IOException {
-        return matchRepo.findMatches(teamName);
-    }
-
-    public List<Map> lookUpTeamMaps(String teamName) throws IOException {
-        return null;
+    public List<Match> lookupMatches(String teamName) {
+        try {
+            return matchRepo.findMatches(teamName);
+        } catch (Exception e) {
+            throw new DataAccessException("Failed to lookup matches for team: " + teamName, e);
+        }
     }
 
     public boolean updateAllMatches() {

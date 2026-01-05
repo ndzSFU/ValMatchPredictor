@@ -1,5 +1,6 @@
 package com.valmatchpredictor.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import java.util.List;
@@ -20,6 +21,7 @@ public class Match {
     private String tournament_name;
     @JsonProperty("match_page")
     private String matchUrl;
+    @JsonIgnore
     private LocalDateTime matchDate;
 
     @ManyToOne
