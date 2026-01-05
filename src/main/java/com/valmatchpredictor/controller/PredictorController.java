@@ -141,20 +141,6 @@ public class PredictorController {
         return ResponseEntity.ok(prediction);
     }
 
-    @GetMapping("/teamProfileTest")
-    public ResponseEntity<TeamProfile> getTeamProfileTest() {
-        TeamProfile teamProfile = new TeamProfile();
-        teamProfile.setTeamName("NRG");
-        try {
-            //Team t = dataService.updateMatches(teamProfile.getTeamName());
-            teamProfile.setMatchesAndUpdateMapsAndPick(dataService.lookupMatches(teamProfile.getTeamName()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ResponseEntity.ok(teamProfile);
-    }
-
-
     @GetMapping("/teamProfile/{teamName}")
     public TeamProfile getTeamProfile(@PathVariable String teamName) {
         TeamProfile teamProfile = new TeamProfile();
