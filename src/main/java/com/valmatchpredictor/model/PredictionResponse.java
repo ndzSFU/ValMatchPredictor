@@ -8,10 +8,6 @@ public class PredictionResponse {
     private String loser;
     private int probability;
     private double matchUpWinRate;
-    private int score;
-    private int totalScore;
-    private String t1Ban;
-    private String t2Ban;
     private String t1LogoURL;
     private String t2LogoURL;
     private PickBanResults pickBanResults;
@@ -64,22 +60,6 @@ public class PredictionResponse {
         this.t2LogoURL = t2LogoURL;
     }
 
-    public void setT1Ban(String t1Ban) {
-        this.t1Ban = t1Ban;
-    }
-
-    public void setT2Ban(String t2Ban) {
-        this.t2Ban = t2Ban;
-    }
-
-    public String getT1Ban() {
-        return t1Ban;
-    }
-
-    public String getT2Ban() {
-        return t2Ban;
-    }
-
     public void setMatchUpWinRate(double matchWinUpRate) {
         this.matchUpWinRate = matchWinUpRate;
     }
@@ -98,22 +78,6 @@ public class PredictionResponse {
 
     public double getMatchUpWinRate() {
         return matchUpWinRate;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public int getTotalScore() {
-        return totalScore;
-    }
-
-    public void setTotalScore(int totalScore) {
-        this.totalScore = totalScore;
     }
 
     public void setProbability(int probability) {

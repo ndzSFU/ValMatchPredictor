@@ -1,0 +1,83 @@
+.docs-container {
+    max-width: 900px;
+    margin: 0px auto;
+    padding: 20px;
+    color: #e6e6e6;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+h1 {
+    font-size: 2.4rem;
+    margin-bottom: 10px;
+}
+
+h2 {
+    font-size: 1.4rem;
+    margin-bottom: 12px;
+}
+
+.description {
+    color: #b5b5b5;
+    margin-bottom: 30px;
+}
+
+.docs-section {
+    margin-bottom: 40px;
+}
+
+.request-box {
+    background-color: #1b1f2a;
+    border-radius: 8px;
+    padding: 14px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.method {
+    background-color: #2d7ef7;
+    color: white;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+}
+
+.request-box code {
+    color: #dce3ff;
+    font-size: 0.95rem;
+}
+
+.code-block {
+    background-color: #1b1f2a;
+    border-radius: 10px;
+    padding: 16px;
+    overflow-x: auto;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.footer-note {
+    color: #9aa0aa;
+    font-size: 0.9rem;
+}
+
+.team-lists-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.team-list{
+    padding: 30px;
+    margin-top: -30px;
+}
+
+.footer-note h3{
+    font-size: 1.4rem;
+}
+
+.team-list-header{
+    position: relative;
+    left: -20px;
+}

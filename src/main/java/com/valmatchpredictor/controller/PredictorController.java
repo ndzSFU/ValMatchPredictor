@@ -96,9 +96,6 @@ public class PredictorController {
         String t1Ban = t1.probableBan();
         String t2Ban = t2.probableBan();
 
-        prediction.setT1Ban(t1Ban);
-        prediction.setT2Ban(t2Ban);
-
         score1 += tallyWinRate(t1Stats, t1Ban, t2Ban);
         score2 += tallyWinRate(t2Stats, t1Ban, t2Ban);
 
@@ -123,16 +120,12 @@ public class PredictorController {
             prediction.setLoser(t2.getTeamName());
             prediction.setProbability(t1probability);
             prediction.setMatchUpWinRate(t1MatchupWinRate);
-            prediction.setScore(score1);
-            prediction.setTotalScore(score1 + score2);
             prediction.setT1IsWinner(true);
         } else {
             prediction.setWinner(t2.getTeamName());
             prediction.setLoser(t1.getTeamName());
             prediction.setProbability(100 - t1probability);
             prediction.setMatchUpWinRate(t2MatchupWinRate);
-            prediction.setScore(score2);
-            prediction.setTotalScore(score1 + score2);
             prediction.setT1IsWinner(false);
         }
 
