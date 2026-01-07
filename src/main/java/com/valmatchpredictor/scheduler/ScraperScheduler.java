@@ -15,7 +15,7 @@ public class ScraperScheduler {
     private DataService dataService;
 
     //Run every day at 2am
-    @Scheduled(cron = "0 0 17 * * *")
+    @Scheduled(cron = "0 0 2 * * *")
     public void scrapeAllTeams(){
         System.out.println("Scraper started at " + LocalDateTime.now());
         dataService.updateAllMatches();
