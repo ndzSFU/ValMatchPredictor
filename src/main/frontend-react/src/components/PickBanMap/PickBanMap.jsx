@@ -24,7 +24,7 @@ export default function PickBanMap({mapName, teamName, type}) {
             </div>
         );
     }
-    else if(type == "T1PICK" || type == "T2PICK"){
+    else if(type === "T1PICK" || type === "T2PICK"){
         return(
             <div className="pick-ban-map-container">
                 <h4 className="map-name">{mapName.toUpperCase()}</h4>
