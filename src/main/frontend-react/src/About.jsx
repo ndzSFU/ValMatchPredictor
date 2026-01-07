@@ -11,7 +11,7 @@ function About() {
                 <h1>API Overview</h1>
 
                 <p className="description">
-                    This API provides structured access to Tier Pro Valorant team data, mainly centered around
+                    This API provides structured access to Tier 1 Pro Valorant team data, mainly centered around
                     match/map data for each team.
                 </p>
 
@@ -40,22 +40,36 @@ function About() {
   "teamName" : "NRG",
   "teamLogo" : "https://owcdn.net/img/6610f026c1a9e.png",
   "matches" : [ {
-    "team1" : "Sentinels",
-    "team2" : "NRG",
+    "team1" : "NRG",
+    "team2" : "G2 Esports",
     "score1" : "0",
-    "score2" : "1",
+    "score2" : "3",
     "tournament_name" : "RBHG 2025",
-    "matchDate" : null,
+    "date" : "2025/11/16 12:35 pm",
     "maps" : [ {
+      "mapName" : "Corrode",
+      "team1" : "NRG",
+      "team2" : "G2 Esports",
+      "score1" : "10",
+      "score2" : "13",
+      "winner" : "G2 Esports"
+    }, {
+      "mapName" : "Split",
+      "team1" : "NRG",
+      "team2" : "G2 Esports",
+      "score1" : "4",
+      "score2" : "13",
+      "winner" : "G2 Esports"
+    }, {
       "mapName" : "Pearl",
       "team1" : "NRG",
-      "team2" : "Sentinels",
-      "score1" : "13",
-      "score2" : "11",
-      "winner" : "NRG"
+      "team2" : "G2 Esports",
+      "score1" : "7",
+      "score2" : "13",
+      "winner" : "G2 Esports"
     } ],
-    "match_page" : "https://www.vlr.gg/585450/nrg-vs-sentinels-red-bull-home-ground-2025-ubsf"
-    },
+    "match_page" : "https://www.vlr.gg/585453/nrg-vs-g2-esports-red-bull-home-ground-2025-gf"
+  },
     ... // The next 50 most recently played matches
    ],
     
@@ -71,7 +85,7 @@ function About() {
       }, 
        ... // Other maps in the current competitive rotation
        ]
-    }`}
+}`}
           </code>
         </pre>
                 </section>
@@ -186,52 +200,73 @@ function About() {
 
                     <pre className="code-block">
           <code>{`[ {
-  "team1" : "Sentinels",
-  "team2" : "FNATIC",
-  "score1" : "1",
-  "score2" : "2",
-  "tournament_name" : "Masters Toronto 2025",
-  "matchDate" : null,
-  "maps" : [ {
-    "mapName" : "Sunset",
-    "team1" : "Sentinels",
+    "team1" : "NRG",
     "team2" : "FNATIC",
-    "score1" : "13",
-    "score2" : "9",
-    "winner" : "Sentinels"
+    "score1" : "3",
+    "score2" : "2",
+    "tournament_name" : "Champions 2025",
+    "date" : "2025/10/05 4:00 am",
+    "maps" : [ {
+      "mapName" : "Corrode",
+      "team1" : "NRG",
+      "team2" : "FNATIC",
+      "score1" : "13",
+      "score2" : "3",
+      "winner" : "NRG"
+    }, {
+      "mapName" : "Lotus",
+      "team1" : "NRG",
+      "team2" : "FNATIC",
+      "score1" : "13",
+      "score2" : "6",
+      "winner" : "NRG"
+    }, {
+      "mapName" : "Abyss",
+      "team1" : "NRG",
+      "team2" : "FNATIC",
+      "score1" : "13",
+      "score2" : "15",
+      "winner" : "FNATIC"
+    }, {
+      "mapName" : "Ascent",
+      "team1" : "NRG",
+      "team2" : "FNATIC",
+      "score1" : "8",
+      "score2" : "13",
+      "winner" : "FNATIC"
+    }, {
+      "mapName" : "Sunset",
+      "team1" : "NRG",
+      "team2" : "FNATIC",
+      "score1" : "13",
+      "score2" : "5",
+      "winner" : "NRG"
+    } ],
+    "match_page" : "https://www.vlr.gg/542272/nrg-vs-fnatic-valorant-champions-2025-gf"
   }, {
-    "mapName" : "Ascent",
-    "team1" : "Sentinels",
+    "team1" : "NRG",
     "team2" : "FNATIC",
-    "score1" : "7",
-    "score2" : "13",
-    "winner" : "FNATIC"
-  }, {
-    "mapName" : "Icebox",
-    "team1" : "Sentinels",
-    "team2" : "FNATIC",
-    "score1" : "9",
-    "score2" : "13",
-    "winner" : "FNATIC"
-  } ],
-  "match_page" : "https://www.vlr.gg/498632/sentinels-vs-fnatic-valorant-masters-toronto-2025-lr2"
-}, {
-  "team1" : "100 Thieves",
-  "team2" : "FNATIC",
-  "score1" : "0",
-  "score2" : "1",
-  "tournament_name" : "EWC 2025",
-  "matchDate" : null,
-  "maps" : [ {
-    "mapName" : "Icebox",
-    "team1" : "100 Thieves",
-    "team2" : "FNATIC",
-    "score1" : "11",
-    "score2" : "13",
-    "winner" : "FNATIC"
-  } ],
-  "match_page" : "https://www.vlr.gg/510143/100-thieves-vs-fnatic-esports-world-cup-2025-opening-d"
-},
+    "score1" : "2",
+    "score2" : "0",
+    "tournament_name" : "Champions 2025",
+    "date" : "2025/10/03 4:00 am",
+    "maps" : [ {
+      "mapName" : "Ascent",
+      "team1" : "FNATIC",
+      "team2" : "NRG",
+      "score1" : "12",
+      "score2" : "14",
+      "winner" : "NRG"
+    }, {
+      "mapName" : "Abyss",
+      "team1" : "FNATIC",
+      "team2" : "NRG",
+      "score1" : "5",
+      "score2" : "13",
+      "winner" : "NRG"
+    } ],
+    "match_page" : "https://www.vlr.gg/542270/fnatic-vs-nrg-valorant-champions-2025-ubf"
+  },
 ...// and so on
 ]
 `}

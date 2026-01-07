@@ -22,8 +22,8 @@ export const EMEA_teams = [
 
 export const APAC_teams = [
     "DetonatioN FocusMe","DRX",               "Gen.G",             "Global Esports",
-    "Paper Rex",         "Rex Regum Qeon",    "T1",                "TALON",
-    "Team Secret",       "ZETA DIVISION",     "SLT Seongnam",      "Nongshim RedForce",
+    "Paper Rex",         "Rex Regum Qeon",    "T1",                "FULL SENSE",
+    "Team Secret",       "ZETA DIVISION",     "VARREL",      "Nongshim RedForce",
 ]
 
 export const CN_teams = [
@@ -33,16 +33,6 @@ export const CN_teams = [
 ]
 
 let all_teams = [...NA_teams, ...EMEA_teams, ...APAC_teams, ...CN_teams];
-
-const MapPool = [
-    "Ascent",
-    "Haven",
-    "Bind",
-    "Lotus",
-    "Abyss",
-    "Corrode",
-    "Sunset"
-];
 
 export const ALL_TEAMS = all_teams;
 

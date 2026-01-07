@@ -27,10 +27,10 @@ export default function NavBar() {
                         Predict
                     </NavLink>
                     <NavLink to="/team" className="nav-link">
-                        Team Profiles
+                        Team Stats
                     </NavLink>
                     <NavLink to="/about" className="nav-link">
-                        About
+                        About API
                     </NavLink>
                 </Nav>
             </Container>

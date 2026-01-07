@@ -147,7 +147,6 @@ public class PredictorController {
         teamProfile.setTeamName(teamName);
         teamProfile.setTeamLogo(dataService.fetchTeamLogoURL(teamName));
         try {
-            //Team t = dataService.updateMatches(teamProfile.getTeamName());
             teamProfile.setMatchesAndUpdateMapsAndPick(dataService.lookupMatches(teamName));
         } catch (Exception e) {
             e.printStackTrace();
@@ -185,5 +184,13 @@ public class PredictorController {
         return ResponseEntity.status(HttpStatus.INSUFFICIENT_STORAGE).build();
     }
 
-
+    @GetMapping("/test/scraper")
+    public List<Match> testScraper(){
+        try{
+            return dataService.ScrapeTeamMatches("ZETA DIVISION");
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -24,6 +24,17 @@ public class Match {
     @JsonIgnore
     private LocalDateTime matchDate;
 
+    private String date;
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;

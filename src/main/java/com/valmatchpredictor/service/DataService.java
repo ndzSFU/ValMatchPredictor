@@ -45,8 +45,8 @@ public class DataService {
 
             // APAC
             "DetonatioN FocusMe","DRX",               "Gen.G",             "Global Esports",
-            "Paper Rex",         "Rex Regum Qeon",    "T1",                "TALON",
-            "Team Secret",       "ZETA DIVISION",     "SLT Seongnam",      "Nongshim RedForce",
+            "Paper Rex",         "Rex Regum Qeon",    "T1",                "VARREL",
+            "Team Secret",       "ZETA DIVISION",     "FULL SENSE",      "Nongshim RedForce",
 
             // China
             "All Gamers",        "Bilibili Gaming",   "EDward Gaming",     "FunPlus Phoenix",
@@ -98,6 +98,8 @@ public class DataService {
     String zeta_id = "5448";
     String slt_id = "12446";
     String nsrf_id = "11060";
+    String fs_id = "4050";
+    String vl_id = "11229";
 
     //China
     String ag_id = "1119";
@@ -156,6 +158,8 @@ public class DataService {
             case "ZETA DIVISION" -> zeta_id;
             case "SLT Seongnam" -> slt_id;
             case "Nongshim RedForce" -> nsrf_id;
+            case "FULL SENSE" -> fs_id;
+            case "VARREL" -> vl_id;
 
             //China
             case "All Gamers" -> ag_id;
@@ -219,6 +223,8 @@ public class DataService {
             case "ZETA DIVISION" -> "zeta-division";
             case "SLT Seongnam" -> "slt-seongnam";
             case "Nongshim RedForce" -> "nongshim-redforce";
+            case "FULL SENSE" -> "full-sense";
+            case "VARREL" -> "varrel";
 
             //China
             case "All Gamers" -> "all-gamers";
@@ -331,6 +337,8 @@ public class DataService {
 
             Element team2LogoImg = matchElem.selectFirst(".m-item-logo.mod-right img");
 
+            String matchDate = matchElem.select(".m-item-date").text().trim();
+
             String team1LogoUrl = team1LogoImg != null
                     ? team1LogoImg.absUrl("src")
                     : "Could not find url";
@@ -347,16 +355,7 @@ public class DataService {
                 saveTeamLogo(team2, team2LogoUrl);
             }
 
-//            Element dateElem = matchElem.selectFirst(".moment-tz-convert");
-//
-//            String utcString = dateElem.attr("data-utc-ts");
-//
-//            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//            LocalDateTime utcDateTime = LocalDateTime.parse(utcString, formatter);
-//
-//            ZonedDateTime utcZoned = utcDateTime.atZone(ZoneOffset.UTC);
-//            ZonedDateTime localZoned = utcZoned.withZoneSameInstant(ZoneId.systemDefault());
-//            LocalDateTime localDateTime = localZoned.toLocalDateTime();
+
 
             Match match = new Match();
             match.setMatchUrl(matchUrl);
@@ -365,11 +364,12 @@ public class DataService {
             match.setTeam2(team2);
             match.setScore1(score1);
             match.setScore2(score2);
-            //match.setMatchDate(localDateTime);
+            match.setDate(matchDate);
+
 
             List<MatchMap> matchMaps = new ArrayList<>();
 
-            System.out.println("Scraping matches for " + teamName);
+           //System.out.println("Scraping matches for " + teamName);
             try {
                 Document matchDoc = Jsoup.connect(matchUrl).userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
                         + "(KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36").timeout(60_000).get();
