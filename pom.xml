@@ -124,7 +124,7 @@
 				</executions>
 				<configuration>
 					<nodeVersion>v22.15.0</nodeVersion>
-					<workingDirectory>src/main/vmp-frontend</workingDirectory>
+					<workingDirectory>src/main/frontend-react</workingDirectory>
 				</configuration>
 			</plugin>
 
@@ -142,7 +142,7 @@
 							<outputDirectory>target/classes/static/</outputDirectory>
 							<resources>
 								<resource>
-									<directory>src/main/vmp-frontend/build/</directory>
+									<directory>src/main/frontend-react/build/</directory>
 									<filtering>true</filtering>
 								</resource>
 							</resources>
