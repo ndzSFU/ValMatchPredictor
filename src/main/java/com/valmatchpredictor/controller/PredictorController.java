@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.util.List;
 import java.util.Objects;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "https://valmatchpredictor.onrender.com")
 @RestController
 @RequestMapping("/")
 public class PredictorController {
