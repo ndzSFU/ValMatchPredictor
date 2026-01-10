@@ -1,1 +1,2 @@
-vlr_stats  -U postgres -h localhost -p 5433
+psql vlr_stats -U postgres -h localhost -p 5433
+school pword

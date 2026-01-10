@@ -76,7 +76,7 @@ function Predict() {
         e.preventDefault();
         console.log("Request body: ", { team1, team2 });
         try {
-            const res = await fetch('http://localhost:8081/predict', {
+            const res = await fetch('https://valmatchpredictor-api.onrender.com/predict', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ team1: team1.value, team2: team2.value, bestOf: "3"}),

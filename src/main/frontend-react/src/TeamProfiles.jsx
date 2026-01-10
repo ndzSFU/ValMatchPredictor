@@ -10,7 +10,7 @@ const TeamDropDownOptions = ALL_TEAMS.map(team => ({ value: team, label: team })
 
 async function fetchTeamProfile(teamName) {
     try{
-        let url = "http://localhost:8081/teamProfile/" + teamName;
+        let url = "https://valmatchpredictor-api.onrender.com/teamProfile/" + teamName;
         const response = await fetch(url);
         const teamProfile = await response.json();
         console.log(teamProfile);
