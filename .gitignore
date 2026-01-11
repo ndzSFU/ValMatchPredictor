@@ -40,4 +40,3 @@ build/
 /src/main/resources/application.properties
 
 /Tests\test_db.py
-.env
