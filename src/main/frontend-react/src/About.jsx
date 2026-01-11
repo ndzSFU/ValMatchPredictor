@@ -12,7 +12,8 @@ function About() {
 
                 <p className="description">
                     This API provides structured access to Tier 1 Pro Valorant team data, mainly centered around
-                    match/map data for each team.
+                    match/map data for each team. Also keep in mind this is hosted via the hobby plan on render
+                    so after extended periods of activity the backend server will spin down and will take about 2 minutes to restart.
                 </p>
 
                 <section className="docs-section">
@@ -20,7 +21,7 @@ function About() {
 
                     <div className="request-box">
                         <div className="method">GET</div>
-                        <code>{"http://localhost:8081/teamProfile/{teamName}"}</code>
+                        <code>{"https://valmatchpredictor-api.onrender.com/teamProfile/{teamName}"}</code>
                     </div>
 
                     <p className="description">
@@ -32,7 +33,7 @@ function About() {
                 <section className="docs-section">
                     <h2>Response</h2>
                     <p className="description">
-                        http://localhost:8081/teamProfile/NRG
+                        https://valmatchpredictor-api.onrender.com/teamProfileNRG
                     </p>
 
                     <pre className="code-block">
@@ -95,7 +96,7 @@ function About() {
 
                     <div className="request-box">
                         <div className="method">GET</div>
-                        <code>{"http://localhost:8081/maps/{teamName}"}</code>
+                        <code>{"https://valmatchpredictor-api.onrender.com/maps/{teamName}"}</code>
                     </div>
 
                     <p className="description">
@@ -107,7 +108,7 @@ function About() {
                 <section className="docs-section">
                     <h2>Response</h2>
                     <p className="description">
-                        http://localhost:8081/maps/Cloud9
+                        https://valmatchpredictor-api.onrender.com/maps/Cloud9
                     </p>
 
                     <pre className="code-block">
@@ -184,7 +185,7 @@ function About() {
 
                 <div className="request-box">
                     <div className="method">GET</div>
-                    <code>{"http://localhost:8081/matches/{teamName}"}</code>
+                    <code>{"https://valmatchpredictor-api.onrender.com/{teamName}"}</code>
                 </div>
 
                 <p className="description">
@@ -195,7 +196,7 @@ function About() {
                 <section className="docs-section">
                     <h2>Response</h2>
                     <p className="description">
-                        http://localhost:8081/matches/FNATIC
+                        https://valmatchpredictor-api.onrender.com/matches/FNATIC
                     </p>
 
                     <pre className="code-block">
