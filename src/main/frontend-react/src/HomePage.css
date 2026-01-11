@@ -75,3 +75,19 @@
 .landing-btn:hover {
     background: #1e40af;
 }
+
+a{
+    color: #1984f7;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+a:hover{
+    color: #0458b3;
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
+

@@ -11,7 +11,7 @@ function HomePage() {
                     <img src={"logo-no-text.png"} alt="App Logo" className="home-page-logo" />
                     <h1 className="landing-title">Welcome to The Valorant Match Predictor!</h1>
                     <p className="landing-desc">
-                        Get theoretical match predictions and Team stats, via the UI on the site or you can gather the data via the API, more info here.
+                        Get theoretical match predictions and Team stats, via the UI on the site or you can gather the data via the API, more info <a href={"/about"}> here</a>.
                     </p>
                     <div className="landing-actions">
                         <NavLink to="/predict" className="landing-btn">Predict a Match</NavLink>
