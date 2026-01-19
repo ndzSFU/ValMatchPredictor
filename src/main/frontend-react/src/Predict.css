@@ -161,7 +161,22 @@ form {
   flex-direction: row;
 }
 
+.loading-prop{
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
 
+.loading-text{
+  color: white;
+}
+
+.loader-bar{
+  margin-top: 10px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
 
 html, body {
   margin: 0;

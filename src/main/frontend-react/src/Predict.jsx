@@ -6,6 +6,7 @@ import SetTeamListButton from "./components/SetTeamButton/SetTeamListButton";
 import Select from 'react-select'
 import NavBar from "./components/NavBar/NavBar";
 import PickBanMap from "./components/PickBanMap/PickBanMap";
+import BarLoader from "react-spinners/BarLoader";
 
 
 export const NA_teams = [
@@ -61,6 +62,7 @@ function Predict() {
     const [team1, setTeam1] = useState(null);
     const [team2, setTeam2] = useState(null);
     const [response, setResponse] = useState('');
+    const [submitted, setSubmitted] = useState(false);
 
     const allTeamOptions = all_teams.map(team => ({
         value: team,
@@ -71,10 +73,17 @@ function Predict() {
     const team2_list = allTeamOptions.filter(team => team.value !== team1?.value);
 
 
+    //For simulating actual spin up time
+    function delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log("Request body: ", { team1, team2 });
+        setSubmitted(true);
+        // await delay(20000); // Artificial delay of 10 seconds
         try {
             const res = await fetch('https://valmatchpredictor-api.onrender.com/predict', {
                 method: 'POST',
@@ -197,6 +206,21 @@ function Predict() {
                             return <div>{response}</div>;
                         }
                     })()}
+                </div>
+
+                <div className="loading-prop">
+                    {
+                        (!response && submitted) && <div>
+                            <p className={"loading-text"}>The backend will take a minute or two to spin up after prolonged inactivity, once it's up your response will appear and subsequent
+                                responses should arrive at in just a few seconds!
+                            </p>
+
+                        <div className={"loader-bar"}>
+                            <BarLoader color={"#f34602"} width={300} height={7} />
+                        </div>
+
+                        </div>
+                    }
                 </div>
             </div>
     );
