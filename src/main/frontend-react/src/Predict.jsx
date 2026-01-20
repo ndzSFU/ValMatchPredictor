@@ -7,6 +7,7 @@ import Select from 'react-select'
 import NavBar from "./components/NavBar/NavBar";
 import PickBanMap from "./components/PickBanMap/PickBanMap";
 import BarLoader from "react-spinners/BarLoader";
+import LoadingInfo from "./components/Loading.jsx";
 
 
 export const NA_teams = [
@@ -83,9 +84,8 @@ function Predict() {
         e.preventDefault();
         console.log("Request body: ", { team1, team2 });
         setSubmitted(true);
-        // await delay(20000); // Artificial delay of 10 seconds
         try {
-            const res = await fetch('https://valmatchpredictor-api.onrender.com/predict', {
+            const res = await fetch('https://valmatchpredictor-api.onrender.com', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ team1: team1.value, team2: team2.value, bestOf: "3"}),
@@ -96,9 +96,6 @@ function Predict() {
             setResponse('Error: ' + error.message);
         }
     };
-
-    const [open1, setOpen1] = React.useState(false);
-    const [open2, setOpen2] = React.useState(false);
 
     const fixedSelectStyles = {
         control: (provided) => ({
@@ -210,16 +207,7 @@ function Predict() {
 
                 <div className="loading-prop">
                     {
-                        (!response && submitted) && <div>
-                            <p className={"loading-text"}>The backend will take a minute or two to spin up after prolonged inactivity, once it's up your response will appear and subsequent
-                                responses should arrive at in just a few seconds!
-                            </p>
-
-                        <div className={"loader-bar"}>
-                            <BarLoader color={"#f34602"} width={300} height={7} />
-                        </div>
-
-                        </div>
+                        (!response && submitted) && <LoadingInfo></LoadingInfo>
                     }
                 </div>
             </div>

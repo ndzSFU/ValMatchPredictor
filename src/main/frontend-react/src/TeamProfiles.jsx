@@ -1,10 +1,11 @@
 import { ALL_TEAMS } from "./Predict";
 
 import Select from 'react-select'
-import {useState} from "react";
+import React, {useState} from "react";
 import NavBar from "./components/NavBar/NavBar";
 import { BarChartRangeExample, MapGraph } from "./components/MapGraph/MapGraph.jsx";
 import "./TeamProfiles.css";
+import LoadingInfo from "./components/Loading.jsx";
 
 const TeamDropDownOptions = ALL_TEAMS.map(team => ({ value: team, label: team }));
 
@@ -25,9 +26,11 @@ function TeamProfiles(){
 
     const [selectedTeam, setSelectedTeam] = useState(null);
     const [chosenProfile, setChosenProfile] = useState(null);
+    const [submitted, setSubmitted] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setSubmitted(true);
         const profileData = await fetchTeamProfile(selectedTeam.value)
         setChosenProfile(profileData);
     }
@@ -82,6 +85,14 @@ function TeamProfiles(){
 
                         </div>
                 )}
+
+            <div className="loading-prop">
+                {
+                    (!chosenProfile && submitted) && <LoadingInfo></LoadingInfo>
+                }
+            </div>
+
+
 
 
         </div>
